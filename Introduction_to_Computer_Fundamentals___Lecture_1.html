@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction to Computer Fundamentals – Lecture 1 | AL-Zahraa College of Medicine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            arabic: ['Noto Sans Arabic', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            medNavy: '#0B2545',
+            medTeal: '#0D7377',
+            medCyan: '#14FFEC',
+            medGold: '#C59B27',
+            medSlate: '#F4F7FA',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .arabic-text {
+      font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+      direction: rtl;
+      text-align: right;
+      line-height: 1.85;
+    }
+    .panel-enter {
+      animation: slideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0D7377;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-600 selection:text-white">
+
+  <!-- STICKY TOP HEADER & LIVE LEARNING PROGRESS BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <!-- University Brand -->
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="mobileMenuBtn" type="button" aria-label="Toggle Table of Contents"
+          class="lg:hidden p-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 active:scale-95 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+          </svg>
+        </button>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B2545] to-[#0D7377] flex items-center justify-center text-white font-bold shadow-sm shrink-0 border border-amber-400/40">
+          <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+        </div>
+        <div class="truncate">
+          <p class="text-[11px] font-semibold uppercase tracking-wider text-teal-700 truncate">University of Basrah • AL-Zahraa College of Medicine</p>
+          <h1 class="text-sm sm:text-base font-bold text-slate-900 truncate">Introduction to Computer Fundamentals – Lecture 1</h1>
+        </div>
+      </div>
+
+      <!-- Progress Indicator & Quick Jumps -->
+      <div class="flex items-center gap-3 sm:gap-5 shrink-0">
+        <div class="hidden sm:flex items-center gap-2 text-xs font-medium">
+          <a href="#vocab-section" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-teal-50 text-slate-700 hover:text-teal-700 transition">Vocabulary</a>
+          <a href="#assessment-section" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition">Final Exam</a>
+        </div>
+
+        <div class="flex items-center gap-2.5 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+          <div class="text-right">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] font-semibold text-slate-500 hidden md:inline">Progress:</span>
+              <span id="progressPercentText" class="text-xs sm:text-sm font-extrabold text-teal-700">0%</span>
+            </div>
+            <div class="w-20 sm:w-28 h-1.5 bg-slate-200 rounded-full overflow-hidden mt-0.5">
+              <div id="progressBarFill" class="h-full bg-gradient-to-r from-teal-600 to-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+          <span id="progressCountBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200">0/0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE DRAWER FOR TABLE OF CONTENTS -->
+  <div id="mobileDrawerOverlay" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden lg:hidden">
+    <div class="w-80 max-w-[85vw] h-full bg-white shadow-2xl p-5 flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-teal-700">Lecture Navigation</span>
+          <h2 class="text-base font-bold text-slate-900">Table of Contents (32 Slides)</h2>
+        </div>
+        <button id="closeMobileDrawer" type="button" class="p-2 rounded-lg text-slate-500 hover:bg-slate-100">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <nav id="mobileTocList" class="mt-4 space-y-1.5 overflow-y-auto flex-1 pr-1"></nav>
+    </div>
+  </div>
+
+  <!-- HERO / INTRODUCTION SECTION (SLIDE 1 METADATA + ACADEMIC OVERVIEW) -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-[#071930] via-[#0B2545] to-[#0D5C63] text-white border-b border-slate-800">
+    <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#14FFEC 1px, transparent 1px); background-size: 24px 24px;"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-5">
+          <div class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold tracking-wide text-amber-300">
+            <span>جامعة البصرة • كلية طب الزهراء</span>
+            <span class="text-white/40">|</span>
+            <span>University of Basrah – AL-Zahraa College of Medicine (Est. 2017)</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            INTRODUCTION TO COMPUTER FUNDAMENTALS
+            <span class="block text-xl sm:text-2xl font-semibold text-teal-300 mt-2">Lecture 1 — Interactive Medical Student Edition</span>
+          </h2>
+
+          <p class="text-slate-200 text-sm sm:text-base max-w-3xl leading-relaxed">
+            Complete, verbatim 32-slide medical informatics lecture deck. Every original English slide, definition, table, hardware specification, and clinical example is preserved intact—paired with an interactive paragraph-by-paragraph Arabic translation, clinical medical explanation, key terminology breakdown, and self-check quiz.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#slide-1" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm shadow-lg shadow-teal-950/40 transition active:scale-95">
+              <span>Start Reading Lecture (32 Slides)</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+            <a href="#vocab-section" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition">
+              <span>Medical & IT Glossary</span>
+            </a>
+            <a href="#assessment-section" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 text-amber-200 font-semibold text-sm border border-amber-400/30 transition">
+              <span>Final Self-Assessment</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Academic Metadata Card -->
+        <div class="lg:col-span-4">
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between border-b border-white/15 pb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-teal-300">Source Verification</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">100% Verbatim PDF</span>
+            </div>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-100">
+              <li class="flex justify-between gap-2">
+                <span class="text-slate-300">Institution:</span>
+                <span class="font-semibold text-right">University of Basrah</span>
+              </li>
+              <li class="flex justify-between gap-2">
+                <span class="text-slate-300">College:</span>
+                <span class="font-semibold text-right">AL-Zahraa College of Medicine</span>
+              </li>
+              <li class="flex justify-between gap-2">
+                <span class="text-slate-300">Source Document:</span>
+                <span class="font-semibold text-right">Lec 1 CF.pdf (32 Slides)</span>
+              </li>
+              <li class="flex justify-between gap-2">
+                <span class="text-slate-300">Interactive Blocks:</span>
+                <span id="heroBlockCount" class="font-semibold text-amber-300 text-right">Loading...</span>
+              </li>
+            </ul>
+            <div class="pt-2 border-t border-white/15">
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                Tip: Click <strong class="text-white">"Understand This Paragraph"</strong> below any English block to open its 4-part Arabic & clinical study guide.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN WORKSPACE: DYNAMIC TOC SIDEBAR + LECTURE CONTENT -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- DESKTOP STICKY TABLE OF CONTENTS -->
+      <aside class="hidden lg:block lg:col-span-3 sticky top-20">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-700">Dynamic Outline</span>
+              <h2 class="text-sm font-bold text-slate-900">Lecture Contents</h2>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">32 Slides</span>
+          </div>
+          <nav id="desktopTocList" class="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1 text-xs"></nav>
+        </div>
+      </aside>
+
+      <!-- MAIN LECTURE STREAM -->
+      <main class="lg:col-span-9 space-y-10">
+
+        <!-- Filter / Reading Controls Bar -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-teal-600"></span>
+            <p class="text-xs sm:text-sm font-medium text-slate-700">
+              All <strong class="text-slate-900">32 slides</strong> preserved in exact sequence. Only one learning panel opens at a time.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="resetProgressBtn" type="button"
+              class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-rose-700 bg-slate-100 hover:bg-rose-50 border border-slate-200 transition">
+              Reset Progress
+            </button>
+          </div>
+        </div>
+
+        <!-- DYNAMICALLY RENDERED LECTURE SECTIONS & SLIDES -->
+        <div id="lectureContainer" class="space-y-10"></div>
+
+        <!-- VOCABULARY REVIEW SECTION -->
+        <section id="vocab-section" class="scroll-mt-24 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-gradient-to-r from-[#0B2545] to-[#0D7377] px-6 py-6 text-white">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Bilingual Medical & IT Lexicon</span>
+                <h2 class="text-xl sm:text-2xl font-bold mt-1">Lecture 1 Vocabulary Review</h2>
+                <p class="text-xs sm:text-sm text-slate-200 mt-1">Essential computer hardware, software, data representation, and clinical imaging terminology from Slides 1–32.</p>
+              </div>
+              <div class="w-full sm:w-64">
+                <input id="vocabSearchInput" type="text" placeholder="Search English or Arabic term..."
+                  class="w-full px-3.5 py-2 rounded-xl bg-white/15 border border-white/25 text-white placeholder-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-300" />
+              </div>
+            </div>
+            <!-- Category Filter Pills -->
+            <div id="vocabFilterPills" class="flex flex-wrap gap-2 mt-4">
+              <button type="button" data-cat="all" class="vocab-pill active px-3 py-1 rounded-full text-xs font-semibold bg-white text-slate-900">All Terms</button>
+              <button type="button" data-cat="core" class="vocab-pill px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white hover:bg-white/25">Core & Cycle</button>
+              <button type="button" data-cat="hardware" class="vocab-pill px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white hover:bg-white/25">Hardware & CPUs</button>
+              <button type="button" data-cat="software" class="vocab-pill px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white hover:bg-white/25">Software</button>
+              <button type="button" data-cat="data" class="vocab-pill px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white hover:bg-white/25">Data & Binary</button>
+              <button type="button" data-cat="peripherals" class="vocab-pill px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white hover:bg-white/25">Peripherals & Ports</button>
+            </div>
+          </div>
+          <div id="vocabGrid" class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- FINAL ASSESSMENT SECTION -->
+        <section id="assessment-section" class="scroll-mt-24 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-gradient-to-r from-slate-900 via-[#0B2545] to-teal-900 px-6 py-6 text-white">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">AL-Zahraa College of Medicine • Self-Evaluation</span>
+            <h2 class="text-xl sm:text-2xl font-bold mt-1">Final Lecture 1 Assessment</h2>
+            <p class="text-xs sm:text-sm text-slate-200 mt-1">Test your mastery of Computer Fundamentals, Hardware vs. Software, Data vs. Information, Numbering Systems, and Peripherals.</p>
+          </div>
+          <div id="quizContainer" class="p-6 space-y-6"></div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        <p class="font-bold text-white">University of Basrah – AL-Zahraa College of Medicine</p>
+        <p class="text-slate-400 mt-0.5">Introduction to Computer Fundamentals – Lecture 1 (Interactive Medical Student Edition)</p>
+      </div>
+      <p class="text-slate-400 text-center sm:text-right">
+        100% Verbatim Content from <span class="text-teal-300 font-semibold">Lec 1 CF.pdf</span> (All 32 Slides Verified)
+      </p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT DATA & INTERACTIVE APPLICATION LOGIC -->
+  <script>
+    /**
+     * COMPLETE VERBATIM LECTURE DATA EXTRACTED FROM ALL 32 PAGES OF "Lec 1 CF.pdf"
+     * Every slide title, bullet, paragraph, table, example, question, and textbook reference
+     * is preserved verbatim in exact slide sequence.
+     */
+    const LECTURE_SECTIONS = [
+      {
+        id: "sec-title-objectives",
+        tocTitle: "1. Title & Lecture Objectives (Slides 1–2)",
+        sectionBadge: "Slides 1 – 2",
+        sectionTitle: "Title & Lecture Objectives",
+        slides: [
+          {
+            slideNum: 1,
+            title: "INTRODUCTION TO COMPUTER FUNDAMENTALS — Lecture 1",
+            blocks: [
+              {
+                id: "b-s1-1",
+                type: "title-card",
+                rawHtml: `
+                  <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-teal-50/60 border border-teal-200/70 space-y-2">
+                    <p class="text-xs font-bold uppercase tracking-wider text-teal-800">University of Basrah – AL-Zahraa College of Medicine (Est. 2017)</p>
+                    <h4 class="text-xl sm:text-2xl font-extrabold text-slate-900">INTRODUCTION TO COMPUTER FUNDAMENTALS</h4>
+                    <p class="text-base font-bold text-teal-700">Lecture 1</p>
+                    <p class="text-xs font-medium text-slate-500">AL-Zahraa College of Medicine • University of Basrah</p>
+                  </div>
+                `,
+                arabicTranslation: "جامعة البصرة – كلية طب الزهراء (تأسست عام 2017). مقدمة في أساسيات الحاسوب – المحاضرة الأولى.",
+                medicalExplanation: "تُعد هذه المحاضرة الافتتاحية حجر الأساس لطلبة كلية طب الزهراء لفهم كيفية عمل الأنظمة الحاسوبية التي تُشغّل الأجهزة الطبية الحديثة، السجلات الصحية الإلكترونية (EHR)، وأجهزة التصوير التشخيصي كالرنين المغناطيسي والمفراس.",
+                keyTerms: [
+                  { en: "Computer Fundamentals", ar: "أساسيات الحاسوب" },
+                  { en: "AL-Zahraa College of Medicine", ar: "كلية طب الزهراء – جامعة البصرة" }
+                ],
+                selfCheck: {
+                  question: "ما هو الهدف الأساسي من دراسة مادة أساسيات الحاسوب لطلبة كلية الطب؟",
+                  options: [
+                    "فهم آلية معالجة البيانات الطبية وتشغيل الأجهزة والأنظمة الصحية الإلكترونية",
+                    "تصنيع الرقائق الإلكترونية يدوياً فقط",
+                    "الاستغناء عن الفحص السريري للمريض"
+                  ],
+                  correctIndex: 0,
+                  explanation: "يساعد فهم أساسيات الحاسوب الطبيب على التعامل بكفاءة مع أجهزة التشخيص، تحليل البيانات الحيوية، وأنظمة المستشفيات."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 2,
+            title: "Objectives",
+            blocks: [
+              {
+                id: "b-s2-1",
+                rawHtml: `
+                  <p class="font-semibold text-slate-900 mb-2">By the end of this lecture, students should be able to:</p>
+                  <ul class="list-disc pl-6 space-y-1.5 text-slate-800">
+                    <li>Define what a computer is and explain the four operations of the information processing cycle.</li>
+                    <li>Differentiate between computer hardware and software, and identify examples of each.</li>
+                    <li>Identify the basic hardware components of a computer</li>
+                    <li>Distinguish between data (raw facts) and information (processed, meaningful data), using a medical example.</li>
+                    <li>Categorize different types of peripheral devices as Input, Output, or Input/Output devices.</li>
+                  </ul>
+                `,
+                arabicTranslation: "الأهداف التعليمية: بنهاية هذه المحاضرة، يجب أن يكون الطلبة قادرين على: • تعريف ماهية الحاسوب وشرح العمليات الأربع لدورة معالجة المعلومات. • التمييز بين المكونات المادية (Hardware) والبرمجيات (Software) وتحديد أمثلة لكل منهما. • تحديد المكونات المادية الأساسية للحاسوب. • التمييز بين البيانات (الحقائق الخام) والمعلومات (البيانات المعالجة ذات المعنى) باستخدام مثال طبي. • تصنيف الأنواع المختلفة للأجهزة الطرفية (الملحقة) إلى أجهزة إدخال، أو إخراج، أو إدخال/إخراج.",
+                medicalExplanation: "تحدد هذه الأهداف المهارات الجوهرية الخمس التي ستتقنها في هذه المحاضرة: بدءاً من فهم دورة معالجة المعلومات داخل أي جهاز طبي، مروراً بالتمييز بين الجزء الملموس والبرمجي، وصولاً إلى التفريق بين القراءة المختبرية الخام (Data) والتشخيص الطبي ذي المعنى (Information).",
+                keyTerms: [
+                  { en: "Information Processing Cycle", ar: "دورة معالجة المعلومات" },
+                  { en: "Hardware vs. Software", ar: "المكونات المادية مقابل البرمجيات" },
+                  { en: "Data vs. Information", ar: "البيانات مقابل المعلومات" },
+                  { en: "Peripheral Devices", ar: "الأجهزة الطرفية (الملحقة)" }
+                ],
+                selfCheck: {
+                  question: "كم عدد العمليات الأساسية في دورة معالجة المعلومات (Information Processing Cycle) المذكورة في أهداف المحاضرة؟",
+                  options: ["أربع عمليات (Four operations)", "عمليتان فقط", "ست عمليات"],
+                  correctIndex: 0,
+                  explanation: "تتكون دورة معالجة المعلومات من أربع عمليات أساسية: الإدخال (Input)، المعالجة (Processing)، الإخراج (Output)، والتخزين (Storage)."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-what-is-computer",
+        tocTitle: "2. What is Computer? & Hardware vs. Software (Slides 3–6)",
+        sectionBadge: "Slides 3 – 6",
+        sectionTitle: "What is Computer? & Categories of Software",
+        slides: [
+          {
+            slideNum: 3,
+            title: "What is computer?",
+            visualDiagram: "processing-cycle",
+            blocks: [
+              {
+                id: "b-s3-1",
+                rawHtml: `
+                  <p class="text-slate-800 leading-relaxed">
+                    A computer is an electronic device that receives input, performs processing, according to a set of instructions, produces results (output), and stores these results for future reference. It performs four basic operations known as the <strong>information processing cycle</strong>.
+                  </p>
+                `,
+                arabicTranslation: "ما هو الحاسوب؟ الحاسوب هو جهاز إلكتروني يستقبل المدخلات (Input)، ويجري عليها المعالجة (Processing) وفقاً لمجموعة من التعليمات، وينتج النتائج (المخرجات Output)، ويخزن هذه النتائج للرجوع إليها مستقبلاً. وهو يؤدي أربع عمليات أساسية تُعرف باسم دورة معالجة المعلومات (Information Processing Cycle).",
+                medicalExplanation: "فكّر في جهاز تخطيط القلب (ECG) أو جهاز قياس السكر الرقمي: يستقبل الحساس إشارة المريض (Input)، يقوم المعالج بتحليل الإشارة وفق خوارزميات طبية (Processing)، يعرض التخطيط أو الرقم على الشاشة (Output)، ويحفظ القراءة في ذاكرة الجهاز لمتابعة حالة المريض لاحقاً (Storage).",
+                keyTerms: [
+                  { en: "Electronic Device", ar: "جهاز إلكتروني" },
+                  { en: "Input / Processing / Output / Storage", ar: "الإدخال / المعالجة / الإخراج / التخزين" },
+                  { en: "Set of Instructions", ar: "مجموعة من التعليمات (البرنامج)" }
+                ],
+                selfCheck: {
+                  question: "ما هو التسلسل الصحيح للعمليات الأربع في دورة معالجة المعلومات؟",
+                  options: [
+                    "Input → Processing → Output → Storage",
+                    "Storage → Output → Input → Processing",
+                    "Processing → Input → Storage → Output"
+                  ],
+                  correctIndex: 0,
+                  explanation: "يبدأ الحاسوب باستقبال المدخلات (Input)، ثم معالجتها (Processing)، ثم إخراج النتائج (Output)، وتخزينها (Storage)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 4,
+            title: "Hardware and Software",
+            blocks: [
+              {
+                id: "b-s4-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li>Computers are made up of hardware and software.</li>
+                    <li><strong>Hardware</strong> refers to the physical components of a computer, such as the motherboard, CPU, RAM, storage devices, and input/output devices.</li>
+                    <li><strong>Software</strong> refers to the programs and instructions that tell the computer what to do.</li>
+                    <li>Hardware is tangible, while software is intangible; hardware needs software to function, and software requires hardware to execute.</li>
+                  </ul>
+                `,
+                arabicTranslation: "• تتكون الحواسيب من مكونات مادية (Hardware) وبرمجيات (Software). • تشير المكونات المادية (Hardware) إلى الأجزاء الفيزيائية الملموسة للحاسوب، مثل اللوحة الأم (Motherboard)، ووحدة المعالجة المركزية (CPU)، وذاكرة الوصول العشوائي (RAM)، وأجهزة التخزين، وأجهزة الإدخال/الإخراج. • تشير البرمجيات (Software) إلى البرامج والتعليمات التي تخبر الحاسوب بما يجب فعله. • المكونات المادية ملموسة (Tangible)، بينما البرمجيات غير ملموسة (Intangible)؛ وتحتاج المكونات المادية إلى البرمجيات لكي تعمل، كما تتطلب البرمجيات مكونات مادية لكي تُنفَّذ.",
+                medicalExplanation: "في الطب، يشبه ذلك العلاقة بين الجسد البشري (Hardware) والعمليات الذهنية والإشارات العصبية الوظيفية (Software). فجهاز السونار نفسه هو (Hardware) ملموس، بينما برنامج تحليل الموجات فوق الصوتية وعرض الصورة هو (Software) غير ملموس، ولا يعمل أحدهما دون الآخر.",
+                keyTerms: [
+                  { en: "Hardware (Tangible)", ar: "المكونات المادية (ملموسة)" },
+                  { en: "Software (Intangible)", ar: "البرمجيات (غير ملموسة)" },
+                  { en: "Execute", ar: "ينفّذ التعليمات" }
+                ],
+                selfCheck: {
+                  question: "أي عبارة تصف العلاقة بين Hardware و Software بدقة؟",
+                  options: [
+                    "Hardware ملموس ويحتاج إلى Software ليعمل، وSoftware غير ملموس ويحتاج إلى Hardware ليُنفَّذ",
+                    "يمكن تشغيل Software بدون وجود أي Hardware",
+                    "كلاهما مكونات مادية ملموسة"
+                  ],
+                  correctIndex: 0,
+                  explanation: "المكونات المادية (Tangible) والبرمجيات (Intangible) متكاملتان ولا يمكن لأحدهما العمل بمعزل عن الآخر."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 5,
+            title: "Categories of Software — System Software",
+            blocks: [
+              {
+                id: "b-s5-1",
+                rawHtml: `
+                  <p class="text-slate-800 leading-relaxed">
+                    <strong>System Software:</strong> is designed to manage the hardware and provide a platform for running application software. It acts as an intermediary between the computer hardware and the user. Examples: operating systems like Windows, macOS, Linux and Android.
+                  </p>
+                `,
+                arabicTranslation: "فئات البرمجيات — برمجيات النظام (System Software): صُممت لإدارة المكونات المادية وتوفير بيئة (منصة) لتشغيل البرمجيات التطبيقية. وهي تعمل كوسيط بين المكونات المادية للحاسوب والمستخدم. أمثلة: أنظمة التشغيل مثل Windows و macOS و Linux و Android.",
+                medicalExplanation: "يعمل نظام التشغيل (System Software) تماماً مثل الجهاز العصبي الذاتي في جسم الإنسان؛ فهو يدير موارد الأجهزة الأساسية بصمت ويوفر البيئة المناسبة لتعمل عليها التطبيقات الطبية التخصصية (مثل برامج قراءة الأشعة أو أنظمة إدارة المستشفيات).",
+                keyTerms: [
+                  { en: "System Software", ar: "برمجيات النظام" },
+                  { en: "Intermediary", ar: "وسيط" },
+                  { en: "Operating Systems (Windows, macOS, Linux, Android)", ar: "أنظمة التشغيل" }
+                ],
+                selfCheck: {
+                  question: "ما هو الدور الرئيسي لبرمجيات النظام (System Software)؟",
+                  options: [
+                    "إدارة المكونات المادية والعمل كوسيط بينها وبين المستخدم وتوفير منصة للتطبيقات",
+                    "كتابة التقارير الطبية فقط مثل برنامج Word",
+                    "تبريد المعالج وتزويده بالتيار المستمر"
+                  ],
+                  correctIndex: 0,
+                  explanation: "برمجيات النظام (مثل أنظمة التشغيل) تدير العتاد وتعمل كوسيط لتشغيل البرامج التطبيقية."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 6,
+            title: "Categories of Software — Application & Utility Software",
+            blocks: [
+              {
+                id: "b-s6-1",
+                rawHtml: `
+                  <div class="space-y-3 text-slate-800 leading-relaxed">
+                    <p>
+                      <strong>Application Software:</strong> Application software is designed to perform specific tasks or solve particular problems for the user. It relies on system software to function. Examples: Microsoft Word, Excel, PowerPoint, Google Chrome, Video games and medical software.
+                    </p>
+                    <p>
+                      <strong>Utility Software:</strong> supports system operation (e.g., antivirus programs, file compression tools).
+                    </p>
+                  </div>
+                `,
+                arabicTranslation: "فئات البرمجيات — البرمجيات التطبيقية والبرمجيات الخدمية: • البرمجيات التطبيقية (Application Software): صُممت لأداء مهام محددة أو حل مشكلات معينة للمستخدم، وتعتمد على برمجيات النظام لكي تعمل. أمثلة: Microsoft Word و Excel و PowerPoint ومتصفح Google Chrome وألعاب الفيديو والبرمجيات الطبية (medical software). • البرمجيات الخدمية (Utility Software): تدعم عمل النظام وصيانته (مثل برامج مكافحة الفيروسات antivirus programs وأدوات ضغط الملفات file compression tools).",
+                medicalExplanation: "برامج السجلات الطبية الإلكترونية (EMR)، وبرامج عرض صور الأشعة (DICOM Viewers)، وجداول بيانات البحوث السريرية في Excel كلها أمثلة على (Application Software). أما برامج مكافحة الفيروسات التي تحمي بيانات المرضى من الاختراق وضغط ملفات الأشعة كبيرة الحجم فهي (Utility Software).",
+                keyTerms: [
+                  { en: "Application Software", ar: "البرمجيات التطبيقية" },
+                  { en: "Medical Software", ar: "البرمجيات الطبية" },
+                  { en: "Utility Software", ar: "البرمجيات الخدمية / المساعدة" },
+                  { en: "Antivirus & File Compression", ar: "مكافحة الفيروسات وضغط الملفات" }
+                ],
+                selfCheck: {
+                  question: "تُصنف برامج مكافحة الفيروسات (Antivirus) وأدوات ضغط الملفات ضمن:",
+                  options: ["Utility Software", "Hardware", "Operating Systems"],
+                  correctIndex: 0,
+                  explanation: "البرمجيات الخدمية (Utility Software) تدعم عمل النظام مثل مكافحات الفيروسات وأدوات ضغط الملفات."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-basic-components",
+        tocTitle: "3. Basic Components of a Computer (Slides 7–10)",
+        sectionBadge: "Slides 7 – 10",
+        sectionTitle: "Basic Components of a Computer",
+        slides: [
+          {
+            slideNum: 7,
+            title: "Basic Components of a Computer (Visual Overview)",
+            visualDiagram: "computer-components",
+            blocks: [
+              {
+                id: "b-s7-1",
+                rawHtml: `
+                  <p class="font-semibold text-slate-900 mb-2">Components of Computers (Diagram Labels):</p>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-slate-800">
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Speakers</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Monitor</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• CPU</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Power Supply Unit</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• RAM</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• GPU</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Motherboard</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Storage</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Usb Flash Drive</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Keyboard</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-medium">• Mouse</span>
+                  </div>
+                `,
+                arabicTranslation: "المكونات الأساسية للحاسوب (نظرة بصرية شاملة): يوضح المخطط المكونات الخارجية والداخلية للحاسوب: السماعات (Speakers)، الشاشة (Monitor)، وحدة المعالجة المركزية (CPU)، وحدة تزويد الطاقة (Power Supply Unit)، الذاكرة العشوائية (RAM)، معالج الرسوميات (GPU)، اللوحة الأم (Motherboard)، وحدة التخزين (Storage)، ذاكرة الفلاش (USB Flash Drive)، لوحة المفاتيح (Keyboard)، والفأرة (Mouse).",
+                medicalExplanation: "تُمثل هذه الشريحة خريطة تشريحية (Anatomical Map) للحاسوب، تماماً كما تدرس تشريح أعضاء الجسم قبل وظائفها؛ حيث تجتمع المكونات الداخلية داخل الصندوق (CPU, RAM, GPU, Motherboard, Storage, PSU) مع الملحقات الخارجية (Monitor, Keyboard, Mouse, Speakers).",
+                keyTerms: [
+                  { en: "Motherboard", ar: "اللوحة الأم" },
+                  { en: "Power Supply Unit (PSU)", ar: "وحدة تزويد الطاقة" },
+                  { en: "GPU / CPU / RAM", ar: "معالج الرسوميات / المعالج المركزي / الذاكرة العشوائية" }
+                ],
+                selfCheck: {
+                  question: "أي من المكونات التالية يوجد مثبتاً داخل صندوق الحاسوب على اللوحة الأم؟",
+                  options: ["CPU و RAM و GPU", "Monitor و Keyboard", "Speakers و Mouse"],
+                  correctIndex: 0,
+                  explanation: "المعالج (CPU) والذاكرة العشوائية (RAM) ومعالج الرسوميات (GPU) مكونات داخلية تثبّت على اللوحة الأم."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 8,
+            title: "Basic Components of a Computer — Motherboard, CPU, RAM & ROM",
+            blocks: [
+              {
+                id: "b-s8-1",
+                rawHtml: `
+                  <p class="font-semibold text-slate-900 mb-2">The basic components of a computer include:</p>
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Motherboard:</strong> This is the main circuit board of the computer. It connects all of the other components of the computer together.</li>
+                    <li><strong>CPU (Central Processing Unit):</strong> This is the brain of the computer. It is responsible for processing all of the instructions that are given to the computer.</li>
+                    <li><strong>RAM (Random Access Memory):</strong> This is the computer's short-term memory. It stores the data that the computer is currently using.</li>
+                    <li><strong>ROM (Read-Only Memory):</strong> It's a type of memory that stores data permanently, even when the computer is turned off. Unlike RAM, which is volatile and loses its data when the system is powered down, ROM retains its information.</li>
+                  </ul>
+                `,
+                arabicTranslation: "تشمل المكونات الأساسية للحاسوب ما يلي: • اللوحة الأم (Motherboard): هي لوحة الدوائر الإلكترونية الرئيسية في الحاسوب، وتربط جميع مكونات الحاسوب الأخرى ببعضها البعض. • وحدة المعالجة المركزية (CPU): هي عقل الحاسوب، وهي المسؤولة عن معالجة جميع التعليمات المُعطاة للحاسوب. • ذاكرة الوصول العشوائي (RAM): هي الذاكرة قصيرة المدى للحاسوب، وتخزن البيانات التي يستخدمها الحاسوب حالياً. • ذاكرة القراءة فقط (ROM): هي نوع من الذاكرة يخزن البيانات بشكل دائم، حتى عند إيقاف تشغيل الحاسوب. وعلى عكس ذاكرة RAM المتطايرة (Volatile) التي تفقد بياناتها عند انقطاع الطاقة، تحتفظ ذاكرة ROM بمعلوماتها.",
+                medicalExplanation: "تشبيه طبي دقيق: الدماغ البشري هو الـ (CPU)، والجهاز العصبي وشبكة الأوعية التي تربط الأعضاء معاً هي الـ (Motherboard)، والذاكرة العاملة قصيرة المدى (Working Memory) التي تحتفظ بمعلومات المريض أثناء الفحص الحالي هي الـ (RAM - متطايرة)، أما المعلومات الأساسية الثابتة لبدء عمل النظام فهي الـ (ROM - غير متطايرة).",
+                keyTerms: [
+                  { en: "Motherboard", ar: "اللوحة الأم (لوحة الدوائر الرئيسية)" },
+                  { en: "CPU (Central Processing Unit)", ar: "وحدة المعالجة المركزية (عقل الحاسوب)" },
+                  { en: "RAM (Volatile / Short-term)", ar: "ذاكرة الوصول العشوائي (متطايرة / قصيرة المدى)" },
+                  { en: "ROM (Non-volatile / Permanent)", ar: "ذاكرة القراءة فقط (دائمة لا تفقد البيانات)" }
+                ],
+                selfCheck: {
+                  question: "ما الفرق الجوهري بين ذاكرة RAM وذاكرة ROM عند إيقاف تشغيل الحاسوب؟",
+                  options: [
+                    "RAM متطايرة (Volatile) وتفقد بياناتها، بينما ROM تحتفظ ببياناتها بشكل دائم",
+                    "ROM تفقد بياناتها وRAM تحتفظ بها",
+                    "كلاهما يفقد جميع البيانات فور إطفاء الجهاز"
+                  ],
+                  correctIndex: 0,
+                  explanation: "ذاكرة RAM مؤقتة ومتطايرة (Volatile)، أما ROM فتخزن البيانات بشكل دائم حتى عند انقطاع التيار."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 9,
+            title: "Basic Components of a Computer — PSU, GPU & Cooling System",
+            blocks: [
+              {
+                id: "b-s9-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Power Supply Unit (PSU):</strong> The PSU converts electricity from the outlet (AC) into the type of power the computer components can use (DC). It is the heart of the system that pumps power to every component.</li>
+                    <li><strong>GPU (Graphics Processing Unit):</strong> The GPU is a special processor designed to handle graphics-related tasks. It processes images, videos, animations, and anything displayed on the screen. Modern GPUs are also used for AI, machine learning, and 3D rendering because they can perform many calculations in parallel.</li>
+                    <li><strong>Cooling System:</strong> Computers generate heat especially the CPU and GPU. The cooling system prevents overheating to keep the computer running safely and efficiently.
+                      <ul class="list-circle pl-6 mt-1.5 space-y-1 text-slate-700">
+                        <li>Two main types:</li>
+                        <li>Air cooling fans move hot air out</li>
+                        <li>Liquid cooling uses coolant to absorb heat</li>
+                      </ul>
+                    </li>
+                  </ul>
+                `,
+                arabicTranslation: "• وحدة تزويد الطاقة (PSU): تحول الكهرباء القادمة من المقبس الجداري (تيار متردد AC) إلى نوع الطاقة التي يمكن لمكونات الحاسوب استخدامها (تيار مستمر DC). وهي بمثابة قلب النظام الذي يضخ الطاقة إلى كل مكون. • وحدة معالجة الرسوميات (GPU): هي معالج خاص مصمم للتعامل مع المهام المتعلقة بالرسوميات، حيث يعالج الصور ومقاطع الفيديو والرسوم المتحركة وكل ما يُعرض على الشاشة. وتُستخدم وحدات GPU الحديثة أيضاً في الذكاء الاصطناعي (AI) وتعلم الآلة والتصيير ثلاثي الأبعاد (3D rendering) لقدرتها على إجراء العديد من العمليات الحسابية بالتوازي. • نظام التبريد (Cooling System): تولد الحواسيب حرارة وخاصة في CPU و GPU، ويمنع نظام التبريد ارتفاع الحرارة المفرط للحفاظ على عمل الحاسوب بأمان وكفاءة. نوعان رئيسيان: التبريد الهوائي (مراوح تطرد الهواء الساخن للخارج)، والتبريد السائل (يستخدم سائل تبريد لامتصاص الحرارة).",
+                medicalExplanation: "وحدة (PSU) هي قلب الحاسوب الذي يضخ الطاقة لكل عضو إلكتروني. أما (GPU) فله أهمية طبية هائلة اليوم في إعادة بناء الصور ثلاثية الأبعاد (3D Rendering) في أجهزة المفراس (CT) والرنين (MRI) وفي خوارزميات الذكاء الاصطناعي لاكتشاف الأورام مبكراً. ونظام التبريد يشبه التنظيم الحراري في الجسم لمنع تلف الخلايا/الرقائق بسبب فرط الحرارة.",
+                keyTerms: [
+                  { en: "PSU (AC to DC)", ar: "وحدة الطاقة (تحول التيار المتردد إلى مستمر)" },
+                  { en: "GPU (Parallel Calculations)", ar: "معالج الرسوميات (معالجة متوازية)" },
+                  { en: "Air Cooling vs. Liquid Cooling", ar: "التبريد الهوائي مقابل التبريد السائل" }
+                ],
+                selfCheck: {
+                  question: "لماذا تُستخدم معالجات GPU الحديثة بكثرة في الذكاء الاصطناعي والتصوير الطبي ثلاثي الأبعاد؟",
+                  options: [
+                    "لأنها قادرة على إجراء العديد من العمليات الحسابية بالتوازي (in parallel)",
+                    "لأنها تحول التيار الكهربائي من AC إلى DC",
+                    "لأنها تخزن البيانات بشكل دائم عند انقطاع الكهرباء"
+                  ],
+                  correctIndex: 0,
+                  explanation: "تتميز وحدات GPU بالمعالجة المتوازية (Parallel calculations)، مما يجعلها مثالية للصور والذكاء الاصطناعي و3D rendering."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 10,
+            title: "Basic Components of a Computer — Data Storage & Input/Output Devices",
+            visualDiagram: "hdd-vs-ssd",
+            blocks: [
+              {
+                id: "b-s10-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Data Storage:</strong>
+                      <ul class="list-disc pl-6 mt-1.5 space-y-1.5">
+                        <li><strong>Hard Disk Drives (HDDs):</strong> Traditional magnetic storage, slower than SSDs but more affordable with larger capacities. <em>(Diagram specs: 3.5" HDD — Platters, Spindle, R/W Head, Actuator Arm, Actuator Axis, Actuator; Shock resistant up to 55g operating, 350g non-operating)</em>.</li>
+                        <li><strong>Solid State Drives (SSDs):</strong> Flash-based storage offering faster speeds and durability than HDDs, but generally more expensive per GB. <em>(Diagram specs: 2.5" SSD — Cache, Controller, NAND Flash Memory; Shock resistant up to 1500g operating and non-operating)</em>.</li>
+                      </ul>
+                    </li>
+                    <li><strong>Input/Output Devices:</strong> Such as keyboards, monitors, and printers that let you interact with the computer.</li>
+                  </ul>
+                `,
+                arabicTranslation: "• تخزين البيانات (Data Storage): — محركات الأقراص الصلبة (HDDs): تخزين مغناطيسي تقليدي، أبطأ من SSD ولكنها أقل تكلفة وتوفر سعات تخزينية أكبر (تحتوي على أقراص دوارة Platters، محور دوران Spindle، رأس قراءة/كتابة R/W Head، وذراع محرك Actuator Arm، وتتحمل صدمات حتى 55g أثناء التشغيل و350g أثناء التوقف). — محركات الأقراص ذات الحالة الصلبة (SSDs): تخزين يعتمد على ذاكرة الفلاش (NAND Flash Memory)، يوفر سرعات أعلى ومتانة أكبر مقارنة بـ HDD (تتحمل صدمات حتى 1500g)، ولكنه أغلى سعراً لكل جيجابايت. • أجهزة الإدخال/الإخراج (Input/Output Devices): مثل لوحات المفاتيح والشاشات والطابعات التي تتيح لك التفاعل مع الحاسوب.",
+                medicalExplanation: "في المستشفيات، تُستخدم أقراص SSD فائقة السرعة والمتانة في أجهزة التصوير الطبي المتنقلة وأجهزة السونار المحمولة لأنها لا تحتوي على أجزاء ميكانيكية متحركة وتتحمل الصدمات (حتى 1500g)، بينما تُستخدم أقراص HDD ذات السعات الضخمة والتكلفة الأقل في خوادم أرشفة صور الأشعة (PACS) طويلة الأمد.",
+                keyTerms: [
+                  { en: "HDD (Magnetic Storage)", ar: "القرص الصلب المغناطيسي التقليدي" },
+                  { en: "SSD (Flash-based Storage)", ar: "قرص الحالة الصلبة المعتمد على ذاكرة الفلاش" },
+                  { en: "Shock Resistance (55g/350g vs. 1500g)", ar: "مقاومة الصدمات" }
+                ],
+                selfCheck: {
+                  question: "أي نوع من وحدات التخزين يعتمد على ذاكرة الفلاش ويوفر سرعة ومتانة أعلى؟",
+                  options: ["Solid State Drives (SSDs)", "Hard Disk Drives (HDDs)", "RAM"],
+                  correctIndex: 0,
+                  explanation: "تعتمد أقراص SSD على ذاكرة الفلاش (NAND Flash) وتوفر سرعة ومتانة أعلى لعدم وجود أجزاء ميكانيكية متحركة."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-processors",
+        tocTitle: "4. Processors (CPUs) & Their Types (Slides 11–15)",
+        sectionBadge: "Slides 11 – 15",
+        sectionTitle: "Processors (CPUs) and their types",
+        slides: [
+          {
+            slideNum: 11,
+            title: "Processors (CPUs) and their types",
+            blocks: [
+              {
+                id: "b-s11-1",
+                rawHtml: `
+                  <p class="text-slate-800 mb-2">• There are many different types of processors, each with its own strengths and weaknesses. Some of the most common types of processors include:</p>
+                  <ul class="list-disc pl-8 space-y-1 font-medium text-slate-900">
+                    <li>Intel processors</li>
+                    <li>AMD processors</li>
+                    <li>ARM processors</li>
+                  </ul>
+                `,
+                arabicTranslation: "المعالجات (CPUs) وأنواعها: • توجد أنواع عديدة ومختلفة من المعالجات، ولكل منها نقاط قوتها ونقاط ضعفها. وتشمل بعض أكثر أنواع المعالجات شيوعاً: معالجات Intel، ومعالجات AMD، ومعالجات ARM.",
+                medicalExplanation: "تتنوع المعالجات بحسب الجهاز الطبي المستخدم؛ فمحطات عمل الأشعة الثقيلة تستخدم معالجات Intel أو AMD عالية الأداء، بينما الأجهزة الطبية المحمولة باليد والأجهزة اللوحية الذكية تعتمد على معالجات ARM الموفرة للطاقة.",
+                keyTerms: [
+                  { en: "Intel Processors", ar: "معالجات إنتل" },
+                  { en: "AMD Processors", ar: "معالجات إي إم دي" },
+                  { en: "ARM Processors", ar: "معالجات آرم" }
+                ],
+                selfCheck: {
+                  question: "ما هي الأنواع الثلاثة الأكثر شيوعاً للمعالجات المذكورة في المحاضرة؟",
+                  options: ["Intel, AMD, ARM", "Windows, Linux, macOS", "HDD, SSD, USB"],
+                  correctIndex: 0,
+                  explanation: "الأنواع الثلاثة الرئيسية للمعالجات في المحاضرة هي Intel و AMD و ARM."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 12,
+            title: "Intel processors (Core i3, i5, i7)",
+            blocks: [
+              {
+                id: "b-s12-1",
+                rawHtml: `
+                  <p class="text-slate-800 leading-relaxed mb-3">
+                    Intel is one of the most popular manufacturers of processors. Intel processors (CPUs) are central processing units made by Intel that perform calculations, run programs, and control all computer operations:
+                  </p>
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Intel Core i3:</strong> Budget processors for basic tasks, light gaming, and office work with fewer cores and threads.</li>
+                    <li><strong>Intel Core i5:</strong> Mid-range processors suitable for gaming, multitasking, and productivity tasks with a balance of performance and price.</li>
+                    <li><strong>Intel Core i7:</strong> High-performance processors, suitable for demanding applications like gaming, video editing, and design work, used for heavy multitasking.</li>
+                  </ul>
+                `,
+                arabicTranslation: "معالجات إنتل (Intel processors): تُعد شركة Intel واحدة من أشهر الشركات المصنعة للمعالجات، وهي وحدات معالجة مركزية تجري العمليات الحسابية وتشغل البرامج وتتحكم في جميع عمليات الحاسوب: • Intel Core i3: معالجات اقتصادية للمهام الأساسية والأعمال المكتبية مع عدد أقل من الأنوية والخيوط (cores and threads). • Intel Core i5: معالجات متوسطة الفئة مناسبة لتعدد المهام والأعمال الإنتاجية مع توازن بين الأداء والسعر. • Intel Core i7: معالجات عالية الأداء مناسبة للتطبيقات المتطلبة مثل تحرير الفيديو والتصميم وتعدد المهام الثقيل.",
+                medicalExplanation: "في العيادات والمستشفيات: يكفي معالج Core i3 لمكتب الاستقبال وتسجيل مواعيد المرضى، بينما يناسب Core i5 حواسيب الأطباء في العيادات الاستشارية، في حين يُفضَّل Core i7 لأجهزة تحليل البيانات المختبرية وتعدد المهام المكثف.",
+                keyTerms: [
+                  { en: "Cores and Threads", ar: "الأنوية والخيوط البرمجية" },
+                  { en: "Multitasking", ar: "تعدد المهام" },
+                  { en: "Intel Core i3 / i5 / i7", ar: "فئات معالجات إنتل الاقتصادية والمتوسطة وعالية الأداء" }
+                ],
+                selfCheck: {
+                  question: "أي فئة من معالجات Intel توفر توازناً بين الأداء والسعر ومناسبة لتعدد المهام والإنتاجية؟",
+                  options: ["Intel Core i5", "Intel Core i3", "Intel Core i9"],
+                  correctIndex: 0,
+                  explanation: "معالجات Intel Core i5 هي الفئة المتوسطة (Mid-range) التي توازن بين السعر والأداء."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 13,
+            title: "Intel processors (Core i9)",
+            blocks: [
+              {
+                id: "b-s13-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Intel Core i9:</strong> Top-tier consumer processors, very high performance for professionals and power users. Needed for 3D rendering, machine learning, advanced gaming.</li>
+                  </ul>
+                `,
+                arabicTranslation: "• Intel Core i9: معالجات من الفئة العليا للمستهلكين، توفر أداءً فائقاً للمحترفين والمستخدمين ذوي المتطلبات العالية، وتُعد ضرورية للتصيير ثلاثي الأبعاد (3D rendering)، وتعلم الآلة (machine learning)، والألعاب المتقدمة.",
+                medicalExplanation: "تُستخدم معالجات الفئة العليا مثل Core i9 في محطات البحث الطبي المتقدمة، والنمذجة ثلاثية الأبعاد للأعضاء قبل العمليات الجراحية المعقدة، وتدريب نماذج الذكاء الاصطناعي الطبي.",
+                keyTerms: [
+                  { en: "Top-tier Processor", ar: "معالج من الفئة العليا" },
+                  { en: "3D Rendering & Machine Learning", ar: "التصيير ثلاثي الأبعاد وتعلم الآلة" }
+                ],
+                selfCheck: {
+                  question: "ما هي الاستخدامات التي تتطلب معالج Intel Core i9؟",
+                  options: [
+                    "التصيير ثلاثي الأبعاد (3D rendering) وتعلم الآلة (machine learning)",
+                    "المهام المكتبية البسيطة فقط",
+                    "تشغيل الهواتف الذكية منخفضة الطاقة"
+                  ],
+                  correctIndex: 0,
+                  explanation: "معالج Core i9 مخصص للمحترفين ومهام 3D rendering وتعلم الآلة والألعاب المتقدمة."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 14,
+            title: "AMD processors",
+            blocks: [
+              {
+                id: "b-s14-1",
+                rawHtml: `
+                  <p class="text-slate-800 leading-relaxed mb-3">
+                    AMD (Advanced Micro Devices) is another popular manufacturer of processors. AMD processors are known for their affordability and performance. Some of the most popular AMD processors include:
+                  </p>
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Ryzen 3/5/7/9:</strong> Competes directly with Intel's Core i3/i5/i7/i9 for desktops and laptops. Known for offering high core and thread counts, excellent multi-threading performance, and strong value.</li>
+                    <li><strong>Ryzen Threadripper:</strong> A high-end desktop (HEDT) platform for enthusiasts, content creators, and workstation users.</li>
+                  </ul>
+                `,
+                arabicTranslation: "معالجات AMD: تُعد شركة AMD (Advanced Micro Devices) شركة مصنعة شهيرة أخرى للمعالجات، وتُعرف معالجاتها بأسعارها المناسبة وأدائها القوي. ومن أشهر معالجات AMD: • Ryzen 3/5/7/9: تنافس مباشرة معالجات Intel Core i3/i5/i7/i9 للحواسيب المكتبية والمحمولة، وتُعرف بتقديم عدد كبير من الأنوية والخيوط وأداء ممتاز في تعدد الخيوط وقيمة قوية مقابل السعر. • Ryzen Threadripper: منصة حواسيب مكتبية عالية الأداء (HEDT) للمحترفين وصناع المحتوى ومستخدمي محطات العمل (Workstations).",
+                medicalExplanation: "تُستخدم معالجات محطات العمل (Workstation) مثل AMD Ryzen Threadripper في مراكز الجينوميات والمعلوماتية الحيوية (Bioinformatics) لمعالجة ملايين التسلسلات الجينية للمرضى في وقت قياسي.",
+                keyTerms: [
+                  { en: "AMD (Advanced Micro Devices)", ar: "شركة إي إم دي" },
+                  { en: "Multi-threading Performance", ar: "أداء تعدد الخيوط البرمجية" },
+                  { en: "Workstation / HEDT", ar: "محطة عمل عالية الأداء" }
+                ],
+                selfCheck: {
+                  question: "أي معالج من AMD مخصص لمحطات العمل (Workstations) والحواسيب المكتبية فائقة الأداء (HEDT)؟",
+                  options: ["Ryzen Threadripper", "Ryzen 3", "Snapdragon"],
+                  correctIndex: 0,
+                  explanation: "منصة Ryzen Threadripper مصممة لمحطات العمل (Workstations) والمستخدمين المحترفين."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 15,
+            title: "ARM processors",
+            blocks: [
+              {
+                id: "b-s15-1",
+                rawHtml: `
+                  <p class="text-slate-800 leading-relaxed mb-3">
+                    ARM (Advanced RISC Machine) processors are a type of processor that is designed for low-power devices. ARM processors are often used in mobile devices, such as smartphones and tablets. Some of the most popular ARM processors include:
+                  </p>
+                  <ul class="list-disc pl-6 space-y-1.5 font-medium text-slate-900">
+                    <li>Apple A-series processors</li>
+                    <li>Qualcomm Snapdragon processors</li>
+                    <li>Samsung Exynos processors</li>
+                  </ul>
+                `,
+                arabicTranslation: "معالجات ARM: معالجات ARM (Advanced RISC Machine) هي نوع من المعالجات المصممة للأجهزة منخفضة استهلاك الطاقة (low-power devices). وتُستخدم غالباً في الأجهزة المحمولة مثل الهواتف الذكية والأجهزة اللوحية. ومن أشهر معالجات ARM: • معالجات Apple A-series • معالجات Qualcomm Snapdragon • معالجات Samsung Exynos.",
+                medicalExplanation: "بفضل استهلاكها المنخفض للطاقة وعدم حاجتها لمراوح تبريد كبيرة، تُشغّل معالجات ARM أجهزة الرعاية الصحية القابلة للارتداء (مثل الساعات الذكية لمراقبة نبض القلب والأكسجين)، وأجهزة السونار المحمولة باليد، والأجهزة اللوحية التي يحملها الأطباء أثناء الجولات السريرية.",
+                keyTerms: [
+                  { en: "ARM (Advanced RISC Machine)", ar: "معمارية آرم منخفضة الطاقة" },
+                  { en: "Low-power Devices", ar: "الأجهزة منخفضة استهلاك الطاقة" },
+                  { en: "Apple A-series / Snapdragon / Exynos", ar: "أشهر معالجات الهواتف والأجهزة اللوحية" }
+                ],
+                selfCheck: {
+                  question: "ما هي الميزة التصميمية الأساسية لمعالجات ARM؟",
+                  options: [
+                    "مصممة للأجهزة منخفضة استهلاك الطاقة مثل الهواتف الذكية والأجهزة اللوحية",
+                    "تحتاج إلى تبريد سائل ضخم وتستهلك طاقة عالية جداً",
+                    "تُستخدم فقط في خوادم المستشفيات العملاقة"
+                  ],
+                  correctIndex: 0,
+                  explanation: "معالجات ARM مصممة خصيصاً للأجهزة المحمولة منخفضة الطاقة (Low-power devices)."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-computing-data-info",
+        tocTitle: "5. Concept of Computing, Data & Information (Slides 16–19)",
+        sectionBadge: "Slides 16 – 19",
+        sectionTitle: "Concept of Computing, Data, and Information",
+        slides: [
+          {
+            slideNum: 16,
+            title: "Concept of Computing, Data, and Information (Core Definition)",
+            blocks: [
+              {
+                id: "b-s16-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li>The concept of computing refers to the fundamental ideas, processes, and technologies that allow computers to receive data, process it, store it, and produce useful output.</li>
+                    <li>It explains how computers work, how we interact with them, and how they solve problems.</li>
+                    <li>Computing combines hardware, software, data, and people working together to perform tasks efficiently and accurately.</li>
+                  </ul>
+                `,
+                arabicTranslation: "مفهوم الحوسبة والبيانات والمعلومات: • يشير مفهوم الحوسبة (Computing) إلى الأفكار والعمليات والتقنيات الأساسية التي تتيح للحواسيب استقبال البيانات، ومعالجتها، وتخزينها، وإنتاج مخرجات مفيدة. • يوضح هذا المفهوم كيف تعمل الحواسيب، وكيف نتفاعل معها، وكيف تحل المشكلات. • تجمع الحوسبة بين المكونات المادية (Hardware)، والبرمجيات (Software)، والبيانات (Data)، والأشخاص (People) الذين يعملون معاً لأداء المهام بكفاءة ودقة.",
+                medicalExplanation: "في النظام الصحي الرقمي، لا تكتمل الحوسبة الطبية إلا بتكامل العناصر الأربعة: الأجهزة الطبية (Hardware)، والبرامج التشخيصية (Software)، وقراءات المرضى (Data)، والكادر الطبي من أطباء وممرضين وتقنيين (People).",
+                keyTerms: [
+                  { en: "Concept of Computing", ar: "مفهوم الحوسبة" },
+                  { en: "Hardware, Software, Data, and People", ar: "أركان منظومة الحوسبة الأربعة" }
+                ],
+                selfCheck: {
+                  question: "ما هي العناصر الأربعة التي تجمعها الحوسبة لأداء المهام بكفاءة ودقة؟",
+                  options: [
+                    "Hardware, software, data, and people",
+                    "CPU, GPU, RAM, and ROM",
+                    "Input, output, binary, and octal"
+                  ],
+                  correctIndex: 0,
+                  explanation: "تجمع الحوسبة بين المكونات المادية والبرمجيات والبيانات والأشخاص (People)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 17,
+            title: "Computing in the Medical Field (MRI, CT Scans & Image Analysis)",
+            blocks: [
+              {
+                id: "b-s17-1",
+                rawHtml: `
+                  <p class="text-slate-800 mb-2">• In the medical field, computing plays a critical role in enhancing patient care, diagnostics, and research. Here are some examples:</p>
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>MRI and CT Scans:</strong> Computers process raw scan data from MRI (Magnetic Resonance Imaging) or CT (Computed Tomography) machines to generate detailed images of the body's internal structures. This helps doctors diagnose conditions like tumors, fractures, and vascular diseases.</li>
+                    <li><strong>Image Analysis:</strong> Advanced computing algorithms, including machine learning, can analyze medical images to detect abnormalities, such as early signs of cancer or brain disorders, that might be difficult for the human eye to spot.</li>
+                  </ul>
+                `,
+                arabicTranslation: "• في المجال الطبي، تؤدي الحوسبة دوراً حاسماً في تعزيز رعاية المرضى والتشخيص والبحث العلمي. وفيما يلي بعض الأمثلة: • التصوير بالرنين المغناطيسي (MRI) والتصوير المقطعي المحوسب (CT Scans): تعالج الحواسيب بيانات المسح الخام من أجهزة MRI (Magnetic Resonance Imaging) أو CT (Computed Tomography) لتوليد صور مفصلة للتراكيب الداخلية للجسم، مما يساعد الأطباء على تشخيص حالات مثل الأورام (tumors)، والكسور (fractures)، وأمراض الأوعية الدموية (vascular diseases). • تحليل الصور (Image Analysis): تستطيع خوارزميات الحوسبة المتقدمة، بما في ذلك تعلم الآلة (machine learning)، تحليل الصور الطبية لاكتشاف التشوهات، مثل العلامات المبكرة للسرطان أو اضطرابات الدماغ، التي قد يصعب على العين البشرية ملاحظتها.",
+                medicalExplanation: "تُظهر هذه الشريحة التطبيق السريري المباشر للحوسبة: إشارات الترددات الراديوية في جهاز MRI أو أشعة X في جهاز CT هي بيانات خام غير مفهومة للعين، وتقوم الحواسيب بإعادة بنائها رياضياً إلى مقاطع تشريحية دقيقة، بل وتساعد خوارزميات الذكاء الاصطناعي الطبيب في اكتشاف البؤر الورمية الدقيقة مبكراً.",
+                keyTerms: [
+                  { en: "MRI (Magnetic Resonance Imaging)", ar: "التصوير بالرنين المغناطيسي" },
+                  { en: "CT (Computed Tomography)", ar: "التصوير المقطعي المحوسب (المفراس)" },
+                  { en: "Tumors, Fractures, Vascular Diseases", ar: "الأورام، الكسور، أمراض الأوعية الدموية" },
+                  { en: "Medical Image Analysis", ar: "تحليل الصور الطبية بالخوارزميات" }
+                ],
+                selfCheck: {
+                  question: "كيف تساعد الحوسبة الأطباء في فحوصات MRI و CT؟",
+                  options: [
+                    "معالجة بيانات المسح الخام لتوليد صور مفصلة للتراكيب الداخلية وتشخيص الأورام والكسور",
+                    "قياس ضغط الدم يدوياً بالسماعة الطبية",
+                    "طباعة الوصفات الورقية فقط"
+                  ],
+                  correctIndex: 0,
+                  explanation: "تقوم الحواسيب بمعالجة بيانات المسح الخام من أجهزة MRI و CT لتكوين صور تشريحية مفصلة."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 18,
+            title: "Data vs. Information",
+            visualDiagram: "data-vs-information",
+            blocks: [
+              {
+                id: "b-s18-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Data:</strong> is the raw, unorganized facts (e.g., figures, text, or images heart rate, blood pressure reading).</li>
+                    <li><strong>Information:</strong> Processed data that is organized and meaningful, aiding decision-making in various contexts.</li>
+                  </ul>
+                `,
+                arabicTranslation: "• البيانات (Data): هي الحقائق الخام غير المنظمة (مثل الأرقام، النصوص، الصور، معدل ضربات القلب، أو قراءة ضغط الدم). • المعلومات (Information): هي بيانات تمت معالجتها فأصبحت منظمة وذات معنى، مما يساعد في اتخاذ القرار في مختلف السياقات.",
+                medicalExplanation: "الرقم المجرد مثل (150/95) أو (72) هو مجرد بيان خام (Data) لا يخبرك بشيء ما لم يُربط بعمر المريض والمعدل الطبيعي والسياق السريري؛ وعند تفسيره وتنظيمه يتحول إلى معلومة طبية (Information) تساعد الطبيب على اتخاذ قرار علاجي.",
+                keyTerms: [
+                  { en: "Data (Raw, unorganized facts)", ar: "البيانات (حقائق خام غير منظمة)" },
+                  { en: "Information (Processed, organized, meaningful)", ar: "المعلومات (بيانات معالجة ومنظمة وذات معنى)" },
+                  { en: "Decision-making", ar: "اتخاذ القرار الطبي" }
+                ],
+                selfCheck: {
+                  question: "قراءة ضغط دم مجردة مسجلة كرقم خام دون تفسير تُعد مثالاً على:",
+                  options: ["Data", "Information", "Utility Software"],
+                  correctIndex: 0,
+                  explanation: "الحقائق والأرقام الخام غير المعالجة مثل قراءة ضغط الدم المجردة هي بيانات (Data)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 19,
+            title: "Medical Examples of Data vs. Information",
+            blocks: [
+              {
+                id: "b-s19-1",
+                rawHtml: `
+                  <div class="space-y-3 text-slate-800">
+                    <div>
+                      <p class="font-bold text-slate-900">1. Heart Rate (Data: 72 beats per minute)</p>
+                      <ul class="list-disc pl-6 mt-1">
+                        <li><strong>Information:</strong> "The patient's heart rate is within a normal range for adults (60-100 bpm), indicating stable cardiac function at this time.</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p class="font-bold text-slate-900">2. Temperature Measurement (Data: 98.6°F)</p>
+                      <ul class="list-disc pl-6 mt-1">
+                        <li><strong>Information:</strong> The patient's temperature is within the typical range, indicating no current fever or infection.</li>
+                      </ul>
+                    </div>
+                  </div>
+                `,
+                arabicTranslation: "١. معدل ضربات القلب — البيانات (Data): 72 نبضة في الدقيقة (72 beats per minute). • المعلومات (Information): \"معدل ضربات قلب المريض يقع ضمن النطاق الطبيعي للبالغين (60–100 نبضة في الدقيقة)، مما يشير إلى استقرار وظيفة القلب في الوقت الحالي\". ٢. قياس درجة الحرارة — البيانات (Data): 98.6 درجة فهرنهايت (98.6°F). • المعلومات (Information): \"درجة حرارة المريض تقع ضمن النطاق الطبيعي المعتاد، مما يشير إلى عدم وجود حمى أو عدوى حالياً\".",
+                medicalExplanation: "لاحظ كيف تحولت الأرقام المجردة (72 bpm) و (98.6°F = 37°C) بعد مقارنتها بالنطاق المرجعي الطبيعي للبالغين إلى استنتاج سريري مفيد (استقرار وظيفة القلب، وعدم وجود حمى أو عدوى).",
+                keyTerms: [
+                  { en: "Normal Adult Heart Rate (60–100 bpm)", ar: "المعدل الطبيعي لنبض البالغين" },
+                  { en: "Normal Body Temperature (98.6°F)", ar: "درجة حرارة الجسم الطبيعية (37°C)" },
+                  { en: "Stable Cardiac Function", ar: "استقرار وظيفة القلب" }
+                ],
+                selfCheck: {
+                  question: "في المثال الطبي، الرقم (98.6°F) يمثل (Data)، فما الذي يمثل (Information)؟",
+                  options: [
+                    "الاستنتاج بأن درجة حرارة المريض ضمن النطاق الطبيعي ولا توجد حمى أو عدوى حالياً",
+                    "جهاز قياس الحرارة نفسه",
+                    "نظام العد الثنائي"
+                  ],
+                  correctIndex: 0,
+                  explanation: "المعلومة (Information) هي المعنى السريري المستخلص بعد مقارنة الرقم بالمعدل الطبيعي."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-data-rep-numbering",
+        tocTitle: "6. Data Representations & Numbering Systems (Slides 20–22)",
+        sectionBadge: "Slides 20 – 22",
+        sectionTitle: "Data Representations & Numbering Systems",
+        slides: [
+          {
+            slideNum: 20,
+            title: "Data representations (Binary, Bit & Byte)",
+            blocks: [
+              {
+                id: "b-s20-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li>Computers can only understand two states <strong>ON</strong> and <strong>OFF</strong>.</li>
+                    <li>Therefore, they represent all data using binary digits (bits):
+                      <ul class="list-disc pl-6 mt-1 space-y-1">
+                        <li><strong>1 = ON</strong> (electric current present)</li>
+                        <li><strong>0 = OFF</strong> (no current)</li>
+                      </ul>
+                    </li>
+                    <li>All letters, numbers, images, and sounds are ultimately represented as sequences of 0s and 1s.</li>
+                    <li>A <strong>bit</strong> is a single binary digit, with either a 1 (on) or 0 (off) value.</li>
+                    <li>Eight bits can combine to make a <strong>byte</strong>, which is an 8-digit binary number.</li>
+                  </ul>
+                `,
+                arabicTranslation: "تمثيل البيانات (Data representations): • لا تستطيع الحواسيب فهم سوى حالتين فقط: التشغيل (ON) والإيقاف (OFF). • لذلك، تمثل جميع البيانات باستخدام الأرقام الثنائية (bits): — الرقم 1 = ON (وجود تيار كهربائي) — الرقم 0 = OFF (عدم وجود تيار كهربائي). • جميع الحروف والأرقام والصور والأصوات تُخزَّن وتُمثَّل في النهاية كسلاسل من الأصفار والآحاد (0s and 1s). • البت (Bit): هو رقم ثنائي واحد يحمل إما القيمة 1 (تشغيل) أو 0 (إيقاف). • تتحد ثمانية بتات (Eight bits) معاً لتكوين البايت (Byte)، وهو عدد ثنائي مكون من 8 خانات.",
+                medicalExplanation: "تشبيه فسيولوجي رائع: عمل الدوائر الإلكترونية في الحاسوب يشبه مبدأ \"الكل أو اللاشيء\" (All-or-None Law) في جهد الفعل العصبي (Action Potential)؛ فإما أن توجد نبضة كهربائية (1 = ON) أو لا توجد (0 = OFF). وكل صورة أشعة أو تخطيط قلب يُترجم في النهاية إلى ملايين البتات (0 و 1).",
+                keyTerms: [
+                  { en: "Binary Digits (Bits)", ar: "الأرقام الثنائية (البتات)" },
+                  { en: "1 = ON / 0 = OFF", ar: "١ = وجود تيار / ٠ = عدم وجود تيار" },
+                  { en: "1 Byte = 8 Bits", ar: "البايت الواحد يساوي ٨ بتات" }
+                ],
+                selfCheck: {
+                  question: "كم عدد البتات (Bits) التي تتحد لتكوين بايت واحد (1 Byte)؟",
+                  options: ["8 bits", "2 bits", "16 bits"],
+                  correctIndex: 0,
+                  explanation: "البايت الواحد يتكون من 8 بتات (Eight bits = 1 byte)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 21,
+            title: "Data representations — Table: Common Quantities of Bytes",
+            blocks: [
+              {
+                id: "b-s21-1",
+                rawHtml: `
+                  <p class="font-bold text-slate-900 mb-3">Table: Common Quantities of Bytes</p>
+                  <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-sm">
+                      <thead>
+                        <tr class="bg-slate-900 text-white">
+                          <th class="py-2.5 px-4 font-semibold">Unit</th>
+                          <th class="py-2.5 px-4 font-semibold">Symbol</th>
+                          <th class="py-2.5 px-4 font-semibold">Size</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200 bg-white">
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Bit</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">b</td><td class="py-2.5 px-4">Smallest unit (0 or 1)</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Byte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">B</td><td class="py-2.5 px-4">8 bits</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Kilobyte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">KB</td><td class="py-2.5 px-4">1,024 bytes</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Megabyte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">MB</td><td class="py-2.5 px-4">1,024 KB</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Gigabyte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">GB</td><td class="py-2.5 px-4">1,024 MB</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Terabyte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">TB</td><td class="py-2.5 px-4">1,024 GB</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Petabyte</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">PB</td><td class="py-2.5 px-4">1,024 TB</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                `,
+                arabicTranslation: "جدول: الكميات الشائعة للبايت (Common Quantities of Bytes): • البت (Bit - b): أصغر وحدة (0 أو 1). • البايت (Byte - B): 8 بتات. • الكيلوبايت (Kilobyte - KB): 1,024 بايت. • الميجابايت (Megabyte - MB): 1,024 كيلوبايت. • الجيجابايت (Gigabyte - GB): 1,024 ميجابايت. • التيرابايت (Terabyte - TB): 1,024 جيجابايت. • البيتابايت (Petabyte - PB): 1,024 تيرابايت.",
+                medicalExplanation: "تساعدك هذه الوحدات على تقدير أحجام البيانات الطبية: ملف نصي لتقرير مريض يُقاس بالكيلوبايت (KB)، وصورة أشعة سينية (X-ray) عالية الدقة تُقاس بالميجابايت (MB)، بينما فحص رنين مغناطيسي كامل قد يبلغ عدة جيجابايت (GB)، وتصل أرشيفات المستشفيات الكبيرة إلى التيرابايت (TB) والبيتابايت (PB).",
+                keyTerms: [
+                  { en: "KB / MB / GB / TB / PB", ar: "مضاعفات البايت (1,024 لكل درجة)" },
+                  { en: "Smallest Unit: Bit", ar: "أصغر وحدة تخزين هي البت" }
+                ],
+                selfCheck: {
+                  question: "كم ميجابايت (MB) يساوي الجيجابايت الواحد (1 GB) وفق جدول المحاضرة؟",
+                  options: ["1,024 MB", "1,000 MB", "8 MB"],
+                  correctIndex: 0,
+                  explanation: "وفق الجدول في الشريحة 21، فإن 1 Gigabyte (GB) = 1,024 MB."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 22,
+            title: "Numbering systems",
+            blocks: [
+              {
+                id: "b-s22-1",
+                rawHtml: `
+                  <p class="text-slate-800 mb-3">• Computers use several numbering systems to represent and process data.</p>
+                  <div class="overflow-x-auto rounded-xl border border-slate-200 mb-3">
+                    <table class="w-full text-left border-collapse text-sm">
+                      <thead>
+                        <tr class="bg-slate-900 text-white">
+                          <th class="py-2.5 px-4 font-semibold">Number System</th>
+                          <th class="py-2.5 px-4 font-semibold">Base</th>
+                          <th class="py-2.5 px-4 font-semibold">Digits Used</th>
+                          <th class="py-2.5 px-4 font-semibold">Example</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200 bg-white">
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Binary</td><td class="py-2.5 px-4 font-mono">2</td><td class="py-2.5 px-4 font-mono">0, 1</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">1011</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Decimal</td><td class="py-2.5 px-4 font-mono">10</td><td class="py-2.5 px-4 font-mono">0-9</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">57</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Octal</td><td class="py-2.5 px-4 font-mono">8</td><td class="py-2.5 px-4 font-mono">0-7</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">47</td></tr>
+                        <tr class="hover:bg-slate-50"><td class="py-2.5 px-4 font-medium">Hexadecimal</td><td class="py-2.5 px-4 font-mono">16</td><td class="py-2.5 px-4 font-mono">0-9, A-F</td><td class="py-2.5 px-4 font-mono text-teal-700 font-bold">9F</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="p-3.5 rounded-xl bg-teal-50/70 border border-teal-200 font-mono text-sm text-slate-900 space-y-1">
+                    <p><strong>Decimal 13 = Binary 1101</strong></p>
+                    <p><strong>Decimal 255 = Hexadecimal FF</strong></p>
+                  </div>
+                `,
+                arabicTranslation: "أنظمة العد (Numbering systems): • تستخدم الحواسيب عدة أنظمة عد لتمثيل البيانات ومعالجتها: — النظام الثنائي (Binary): الأساس 2، الأرقام المستخدمة (0, 1)، مثال: 1011. — النظام العشري (Decimal): الأساس 10، الأرقام المستخدمة (0-9)، مثال: 57. — النظام الثماني (Octal): الأساس 8، الأرقام المستخدمة (0-7)، مثال: 47. — النظام السداسي عشر (Hexadecimal): الأساس 16، الرموز المستخدمة (0-9, A-F)، مثال: 9F. أمثلة تحويل: • العدد العشري 13 يساوي في النظام الثنائي 1101 (Decimal 13 = Binary 1101). • العدد العشري 255 يساوي في النظام السداسي عشر FF (Decimal 255 = Hexadecimal FF).",
+                medicalExplanation: "يستخدم البشر النظام العشري (Base 10) في قراءات المختبر والأدوية، بينما تعمل دوائر الحاسوب بالنظام الثنائي (Base 2)، ويُستخدم النظام السداسي عشر (Hexadecimal - Base 16) لاختصار سلاسل البتات الطويلة وتمثيل درجات الألوان في الصور الطبية وعناوين الذاكرة.",
+                keyTerms: [
+                  { en: "Binary (Base 2)", ar: "النظام الثنائي" },
+                  { en: "Decimal (Base 10)", ar: "النظام العشري" },
+                  { en: "Octal (Base 8)", ar: "النظام الثماني" },
+                  { en: "Hexadecimal (Base 16: 0-9, A-F)", ar: "النظام السداسي عشر" }
+                ],
+                selfCheck: {
+                  question: "ما هو الأساس (Base) والرموز المستخدمة في النظام السداسي عشر (Hexadecimal)؟",
+                  options: [
+                    "الأساس 16، والرموز من 0-9 ومن A-F",
+                    "الأساس 8، والرموز من 0-7",
+                    "الأساس 2، والرموز 0 و 1 فقط"
+                  ],
+                  correctIndex: 0,
+                  explanation: "النظام السداسي عشر أساسه 16 ويستخدم الأرقام 0-9 والحروف A-F (حيث تمثل A=10 إلى F=15)."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-peripherals",
+        tocTitle: "7. Peripheral Devices & Connections (Slides 23–28)",
+        sectionBadge: "Slides 23 – 28",
+        sectionTitle: "Peripheral Devices in Computer & How They Connect",
+        slides: [
+          {
+            slideNum: 23,
+            title: "Peripherals Devices in Computer",
+            blocks: [
+              {
+                id: "b-s23-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Peripheral devices</strong> are external devices connected to a computer to input, output, or store data.</li>
+                    <li>They are not part of the core computer system (CPU, RAM, motherboard) but enhance its functionality.</li>
+                  </ul>
+                `,
+                arabicTranslation: "الأجهزة الطرفية في الحاسوب (Peripherals Devices in Computer): • الأجهزة الطرفية هي أجهزة خارجية تُوصَل بالحاسوب لإدخال البيانات أو إخراجها أو تخزينها. • وهي ليست جزءاً من النظام الأساسي للحاسوب (مثل CPU و RAM واللوحة الأم)، ولكنها تعزز وظائفه.",
+                medicalExplanation: "في عيادة الطبيب، الحاسوب المركزي (CPU, RAM, Motherboard) هو النواة، بينما قارئ الباركود لبطاقة المريض، وطابعة الوصفات، وشاشة عرض الأشعة، وقرص النسخ الاحتياطي هي أجهزة طرفية (Peripherals) توسّع إمكانات النظام.",
+                keyTerms: [
+                  { en: "Peripheral Devices", ar: "الأجهزة الطرفية / الملحقة" },
+                  { en: "Core Computer System (CPU, RAM, Motherboard)", ar: "النظام الأساسي للحاسوب" }
+                ],
+                selfCheck: {
+                  question: "هل تُعد ذاكرة RAM أو اللوحة الأم (Motherboard) من الأجهزة الطرفية؟",
+                  options: [
+                    "لا، هي جزء من النظام الأساسي للحاسوب (Core computer system)",
+                    "نعم، هي أجهزة طرفية خارجية",
+                    "تُعد أجهزة إخراج صوتي"
+                  ],
+                  correctIndex: 0,
+                  explanation: "الأجهزة الطرفية هي أجهزة خارجية متصلة بالحاسوب وليست جزءاً من النظام الأساسي (CPU, RAM, Motherboard)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 24,
+            title: "Categories of Peripheral Devices — 1. Input Devices",
+            blocks: [
+              {
+                id: "b-s24-1",
+                rawHtml: `
+                  <p class="text-slate-800 mb-2">Peripherals are most commonly grouped into three categories based on their primary function: Input, Output, and Input/Output (Storage).</p>
+                  <p class="font-bold text-slate-900 mt-3 mb-1">1. Input Devices</p>
+                  <p class="text-slate-700 mb-2">These devices allow the user to send data, commands, or information into the computer.</p>
+                  <ul class="list-disc pl-6 space-y-1.5 text-slate-800">
+                    <li><strong>Keyboard:</strong> The primary device for inputting text and commands.</li>
+                    <li><strong>Mouse / Trackpad:</strong> A pointing device that controls the cursor on the screen.</li>
+                    <li><strong>Microphone:</strong> Captures audio input for communication, recording, or voice commands.</li>
+                    <li><strong>Webcam / Camera:</strong> Captures digital images and video.</li>
+                    <li><strong>Scanner:</strong> Digitizes physical documents or photos into a digital format.</li>
+                    <li><strong>Game Controller / Joystick:</strong> Provides input for gaming and simulations.</li>
+                    <li><strong>Barcode / QR Scanner:</strong> Reads barcodes or QR codes to input data quickly.</li>
+                  </ul>
+                `,
+                arabicTranslation: "فئات الأجهزة الطرفية: تُصنف الأجهزة الطرفية عادةً إلى ثلاث فئات بناءً على وظيفتها الأساسية: الإدخال (Input)، والإخراج (Output)، والإدخال/الإخراج والتخزين (Input/Output & Storage). ١. أجهزة الإدخال (Input Devices): تتيح هذه الأجهزة للمستخدم إرسال البيانات أو الأوامر أو المعلومات إلى الحاسوب: • لوحة المفاتيح (Keyboard): الجهاز الأساسي لإدخال النصوص والأوامر. • الفأرة / لوحة اللمس (Mouse / Trackpad): جهاز تأشير يتحكم في المؤشر على الشاشة. • الميكروفون (Microphone): يلتقط المدخلات الصوتية للتواصل أو التسجيل أو الأوامر الصوتية. • كاميرا الويب / الكاميرا (Webcam / Camera): تلتقط الصور الرقمية والفيديو. • الماسح الضوئي (Scanner): يحوّل المستندات الورقية أو الصور الفوتوغرافية إلى صيغة رقمية. • ذراع التحكم (Game Controller / Joystick): توفر مدخلات للألعاب والمحاكاة (simulations). • ماسح الباركود / رمز الاستجابة السريعة (Barcode / QR Scanner): يقرأ الرموز الشريطية أو رموز QR لإدخال البيانات بسرعة.",
+                medicalExplanation: "تطبيقات طبية لأجهزة الإدخال: يُستخدم (Barcode/QR Scanner) في المستشفيات والصيدليات لقراءة سوار معصم المريض وأكواد الأدوية بدقة ومنع الأخطاء الدوائية، ويُستخدم (Scanner) لأرشفة التحاليل الورقية القديمة، كما تُستخدم (Joystick) في أجهزة المحاكاة الجراحية بالمنظار (Surgical Simulators).",
+                keyTerms: [
+                  { en: "Input Devices", ar: "أجهزة الإدخال" },
+                  { en: "Scanner (Digitizes physical documents)", ar: "الماسح الضوئي" },
+                  { en: "Barcode / QR Scanner", ar: "قارئ الباركود ورمز QR" }
+                ],
+                selfCheck: {
+                  question: "ما هو الجهاز الذي يحوّل المستندات الورقية أو الصور الفوتوغرافية إلى صيغة رقمية داخل الحاسوب؟",
+                  options: ["Scanner", "Printer", "Projector"],
+                  correctIndex: 0,
+                  explanation: "الماسح الضوئي (Scanner) هو جهاز إدخال يحوّل الوثائق الورقية إلى صيغة رقمية."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 25,
+            title: "Categories of Peripheral Devices — 2. Output Devices",
+            blocks: [
+              {
+                id: "b-s25-1",
+                rawHtml: `
+                  <p class="font-bold text-slate-900 mb-1">2. Output Devices</p>
+                  <p class="text-slate-700 mb-2">These devices receive data from the computer and present it to the user in a human-perceivable form.</p>
+                  <ul class="list-disc pl-6 space-y-1.5 text-slate-800">
+                    <li><strong>Monitor / Display:</strong> The primary output device, showing a visual interface.</li>
+                    <li><strong>Printer:</strong> Produces a physical hard copy of digital documents and images.</li>
+                    <li><strong>Speakers / Headphones:</strong> Output audio, such as music, system sounds, and voice.</li>
+                    <li><strong>Projector:</strong> Projects the computer's display onto a large screen or wall.</li>
+                  </ul>
+                `,
+                arabicTranslation: "٢. أجهزة الإخراج (Output Devices): تستقبل هذه الأجهزة البيانات من الحاسوب وتعرضها للمستخدم بصورة يمكن للإنسان إدراكها: • الشاشة / العرض (Monitor / Display): جهاز الإخراج الأساسي، يعرض واجهة مرئية. • الطابعة (Printer): تنتج نسخة ورقية ملموسة (hard copy) من المستندات والصور الرقمية. • السماعات / سماعات الرأس (Speakers / Headphones): تُخرج الصوت مثل الموسيقى وأصوات النظام والكلام. • جهاز العرض الضوئي (Projector): يعرض شاشة الحاسوب على شاشة كبيرة أو جدار.",
+                medicalExplanation: "في المجال الطبي: تُستخدم الشاشات الطبية عالية التباين (Monitors) لقراءة صور الأشعة، والطابعة (Printer) لإصدار التقارير المختبرية والوصفات الطبية الورقية (Hard copy)، وجهاز العرض (Projector) في قاعات المحاضرات الطبية والمؤتمرات السريرية.",
+                keyTerms: [
+                  { en: "Output Devices", ar: "أجهزة الإخراج" },
+                  { en: "Hard Copy", ar: "نسخة ورقية مطبوعة" },
+                  { en: "Human-perceivable Form", ar: "صورة قابلة للإدراك البشري (مرئية أو صوتية أو ورقية)" }
+                ],
+                selfCheck: {
+                  question: "أي جهاز ينتج نسخة ورقية ملموسة (Physical hard copy) من المستندات والصور الرقمية؟",
+                  options: ["Printer", "Scanner", "Trackpad"],
+                  correctIndex: 0,
+                  explanation: "الطابعة (Printer) هي جهاز إخراج ينتج نسخة ورقية (Hard copy)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 26,
+            title: "Categories of Peripheral Devices — 3. Input/Output (I/O) & Storage Devices",
+            blocks: [
+              {
+                id: "b-s26-1",
+                rawHtml: `
+                  <p class="font-bold text-slate-900 mb-1">3. Input/Output (I/O) & Storage Devices</p>
+                  <p class="text-slate-700 mb-2">These devices can both send and receive data from the computer. They are often used for storage and data transfer.</p>
+                  <ul class="list-disc pl-6 space-y-1.5 text-slate-800">
+                    <li><strong>External Hard Drive (HDD/SSD):</strong> Provides additional storage space for backups and files.</li>
+                    <li><strong>USB Flash Drive:</strong> A portable storage device for transferring files between computers.</li>
+                    <li><strong>Optical Disc Drive (CD/DVD/Blu-ray):</strong> Can read data from discs (input) and write data to them (output).</li>
+                    <li><strong>Network Interface Card (NIC):</strong> Allows the computer to connect to a network (like the internet), both receiving and sending data.</li>
+                    <li><strong>Memory Card Reader:</strong> Reads and writes data to memory cards from cameras, phones, etc.</li>
+                  </ul>
+                `,
+                arabicTranslation: "٣. أجهزة الإدخال/الإخراج (I/O) والتخزين: تستطيع هذه الأجهزة إرسال البيانات إلى الحاسوب واستقبالها منه في آنٍ واحد، وغالباً ما تُستخدم للتخزين ونقل البيانات: • القرص الصلب الخارجي (External Hard Drive HDD/SSD): يوفر مساحة تخزين إضافية للنسخ الاحتياطية والملفات. • ذاكرة الفلاش (USB Flash Drive): جهاز تخزين محمول لنقل الملفات بين الحواسيب. • محرك الأقراص الضوئية (Optical Disc Drive - CD/DVD/Blu-ray): يستطيع قراءة البيانات من الأقراص (إدخال) وكتابة البيانات عليها (إخراج). • بطاقة واجهة الشبكة (Network Interface Card - NIC): تتيح للحاسوب الاتصال بالشبكة (مثل الإنترنت)، حيث ترسل وتستقبل البيانات معاً. • قارئ بطاقات الذاكرة (Memory Card Reader): يقرأ ويكتب البيانات على بطاقات الذاكرة الخاصة بالكاميرات والهواتف وغيرها.",
+                medicalExplanation: "غالباً ما تُسلَّم فحوصات الرنين المغناطيسي والمفراس للمريض على قرص (CD/DVD) أو (USB Flash Drive) ليتمكن الطبيب الاستشاري من قراءتها على حاسوبه، كما تتيح بطاقة الشبكة (NIC) تبادل نتائج المختبر وصور الأشعة بين أقسام المستشفى عبر الشبكة.",
+                keyTerms: [
+                  { en: "Input/Output (I/O) Devices", ar: "أجهزة الإدخال والإخراج معاً" },
+                  { en: "Network Interface Card (NIC)", ar: "بطاقة واجهة الشبكة" },
+                  { en: "Optical Disc Drive (CD/DVD/Blu-ray)", ar: "محرك الأقراص الضوئية" }
+                ],
+                selfCheck: {
+                  question: "لماذا تُصنف بطاقة الشبكة (NIC) وذاكرة (USB Flash Drive) ضمن أجهزة الإدخال/الإخراج (I/O)؟",
+                  options: [
+                    "لأنها تستطيع إرسال البيانات إلى الحاسوب واستقبالها منه معاً",
+                    "لأنها تعرض الصور على الجدار فقط",
+                    "لأنها تدخل الصوت فقط"
+                  ],
+                  correctIndex: 0,
+                  explanation: "أجهزة I/O ترسل وتستقبل البيانات في الاتجاهين (قراءة وكتابة / إرسال واستقبال)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 27,
+            title: "How Do Peripherals Connect? (Wired Ports)",
+            blocks: [
+              {
+                id: "b-s27-1",
+                rawHtml: `
+                  <p class="text-slate-800 mb-2">Peripherals connect to the computer through various ports and wireless technologies:</p>
+                  <ul class="list-disc pl-6 space-y-1.5 text-slate-800">
+                    <li><strong>USB (Universal Serial Bus):</strong> The most common standard for connecting a vast range of devices (keyboards, mice, printers, external drives).</li>
+                    <li><strong>HDMI (High-Definition Multimedia Interface), DisplayPort, VGA:</strong> Primarily used to connect monitors and projectors.</li>
+                    <li><strong>3.5mm Audio Jack:</strong> For connecting headphones, microphones, and speakers.</li>
+                    <li><strong>Ethernet (RJ-45):</strong> A wired connection for networking.</li>
+                  </ul>
+                `,
+                arabicTranslation: "كيف تتصل الأجهزة الطرفية؟ تتصل الأجهزة الطرفية بالحاسوب عبر منافذ وتقنيات لاسلكية متنوعة: • منفذ USB (Universal Serial Bus): المعيار الأكثر شيوعاً لتوصيل مجموعة واسعة من الأجهزة (لوحات المفاتيح، الفأرات، الطابعات، الأقراص الخارجية). • منافذ HDMI و DisplayPort و VGA: تُستخدم بشكل أساسي لتوصيل الشاشات وأجهزة العرض الضوئي. • مقبس الصوت 3.5 ملم (3.5mm Audio Jack): لتوصيل سماعات الرأس والميكروفونات ومكبرات الصوت. • منفذ الإيثرنت (Ethernet RJ-45): اتصال سلكي للشبكات.",
+                medicalExplanation: "في غرف العمليات ووحدات العناية المركزة (ICU)، يُفضَّل الاتصال السلكي عبر منفذ (Ethernet RJ-45) لنقل بيانات المراقبة الحيوية باستقرار وأمان عالٍ، بينما تُستخدم منافذ (HDMI/DisplayPort) لعرض صور التنظير الداخلي (Endoscopy) على شاشات عالية الدقة.",
+                keyTerms: [
+                  { en: "USB (Universal Serial Bus)", ar: "الناقل التسلسلي العام" },
+                  { en: "HDMI / DisplayPort / VGA", ar: "منافذ توصيل الشاشات وأجهزة العرض" },
+                  { en: "Ethernet (RJ-45)", ar: "منفذ الشبكة السلكية" }
+                ],
+                selfCheck: {
+                  question: "أي منفذ يُستخدم للاتصال السلكي بالشبكات؟",
+                  options: ["Ethernet (RJ-45)", "3.5mm Audio Jack", "VGA"],
+                  correctIndex: 0,
+                  explanation: "منفذ Ethernet (RJ-45) هو المنفذ القياسي للاتصال السلكي بالشبكات."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 28,
+            title: "How Do Peripherals Connect? (Thunderbolt & Wireless)",
+            blocks: [
+              {
+                id: "b-s28-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li><strong>Thunderbolt:</strong> A high-speed interface (common on modern Macs and PCs) that combines data transfer, video output, and power delivery. It often uses a USB-C connector.</li>
+                    <li><strong>Wireless Connections:</strong>
+                      <ul class="list-disc pl-6 mt-1.5 space-y-1">
+                        <li><strong>Bluetooth:</strong> For short-range connections with devices like wireless mice, keyboards, headphones, and speakers.</li>
+                        <li><strong>Wi-Fi:</strong> For wirelessly connecting to a network.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                `,
+                arabicTranslation: "• منفذ Thunderbolt: واجهة عالية السرعة (شائعة في أجهزة Mac والحواسيب الحديثة) تجمع بين نقل البيانات، وإخراج الفيديو، وتوصيل الطاقة في منفذ واحد، وغالباً ما تستخدم موصل USB-C. • الاتصالات اللاسلكية (Wireless Connections): — البلوتوث (Bluetooth): للاتصالات قصيرة المدى مع أجهزة مثل الفأرة اللاسلكية ولوحة المفاتيح وسماعات الرأس ومكبرات الصوت. — الواي فاي (Wi-Fi): للاتصال اللاسلكي بالشبكة.",
+                medicalExplanation: "تُستخدم تقنية البلوتوث (Bluetooth) في الطب لربط أجهزة قياس الضغط والسكري والسماعات الطبية الرقمية بالهاتف أو الحاسوب اللوحي على مسافة قصيرة، بينما يتيح (Wi-Fi) للأطباء الوصول إلى ملفات المرضى أثناء التنقل داخل أجنحة المستشفى.",
+                keyTerms: [
+                  { en: "Thunderbolt (USB-C connector)", ar: "واجهة فائقة السرعة لنقل البيانات والفيديو والطاقة" },
+                  { en: "Bluetooth (Short-range)", ar: "اتصال لاسلكي قصير المدى" },
+                  { en: "Wi-Fi (Wireless network)", ar: "شبكة محلية لاسلكية" }
+                ],
+                selfCheck: {
+                  question: "ما هي الواجهة عالية السرعة التي تجمع بين نقل البيانات وإخراج الفيديو وتوصيل الطاقة وتستخدم غالباً موصل USB-C؟",
+                  options: ["Thunderbolt", "Bluetooth", "3.5mm Audio Jack"],
+                  correctIndex: 0,
+                  explanation: "واجهة Thunderbolt تجمع نقل البيانات والفيديو وتزويد الطاقة وتستخدم غالباً موصل USB-C."
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "sec-summary-questions-textbooks",
+        tocTitle: "8. Summary, End-of-Session Questions & Textbooks (Slides 29–32)",
+        sectionBadge: "Slides 29 – 32",
+        sectionTitle: "Summary, End-of-Session Questions & Textbooks",
+        slides: [
+          {
+            slideNum: 29,
+            title: "Summary",
+            blocks: [
+              {
+                id: "b-s29-1",
+                rawHtml: `
+                  <ul class="list-disc pl-6 space-y-2 text-slate-800">
+                    <li>This lecture covered computer fundamentals. A computer is an electronic device that follows the input-processing-output-storage cycle, using physical hardware (like the CPU, RAM, and storage) and non-physical software (system and application programs).</li>
+                    <li>It explained how raw data is processed into meaningful information, represented internally in binary.</li>
+                    <li>The lecture also categorized peripheral devices as input, output, or storage devices that expand a computer's functionality.</li>
+                  </ul>
+                `,
+                arabicTranslation: "ملخص المحاضرة (Summary): • تناولت هذه المحاضرة أساسيات الحاسوب؛ فالحاسوب هو جهاز إلكتروني يتبع دورة (الإدخال - المعالجة - الإخراج - التخزين)، مستخدماً مكونات مادية فيزيائية (مثل CPU و RAM ووحدات التخزين) وبرمجيات غير مادية (برامج النظام والبرامج التطبيقية). • كما أوضحت المحاضرة كيف تُعالَج البيانات الخام لتصبح معلومات ذات معنى، وتُمثَّل داخلياً بالنظام الثنائي (Binary). • وصنفت المحاضرة أيضاً الأجهزة الطرفية إلى أجهزة إدخال أو إخراج أو تخزين توسّع وظائف الحاسوب.",
+                medicalExplanation: "يمثل هذا الملخص الخريطة الذهنية الشاملة للمحاضرة الأولى؛ تأكد من إتقان كل رابط بين المفاهيم قبل الانتقال إلى أسئلة نهاية الجلسة والاختبار النهائي.",
+                keyTerms: [
+                  { en: "Input-Processing-Output-Storage Cycle", ar: "دورة الإدخال-المعالجة-الإخراج-التخزين" },
+                  { en: "Internal Binary Representation", ar: "التمثيل الداخلي بالنظام الثنائي" }
+                ],
+                selfCheck: {
+                  question: "كيف تُخزَّن وتُمثَّل جميع البيانات داخلياً في الحاسوب حسب ملخص المحاضرة؟",
+                  options: ["بالنظام الثنائي (Binary)", "بالنظام العشري فقط", "على شكل نصوص ورقية"],
+                  correctIndex: 0,
+                  explanation: "يُمثّل الحاسوب جميع البيانات داخلياً بالنظام الثنائي (0s and 1s)."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 30,
+            title: "End-of-Session Questions (Questions 1–3)",
+            isQuestionsSlide: true,
+            blocks: [
+              {
+                id: "b-s30-1",
+                rawHtml: `
+                  <ol class="list-decimal pl-6 space-y-3 text-slate-900 font-medium">
+                    <li>A patient's blood test results show a glucose level of <strong>95 mg/dL</strong>. Is this an example of Data or Information? What additional context would be needed to transform it into the other?</li>
+                    <li>What is the primary function of the Central Processing Unit (CPU), and how does it differ from the role of RAM?</li>
+                    <li>Your computer is running slowly while you have a web browser, a word processor, and a video call open simultaneously. Would upgrading the CPU or adding more RAM likely have a bigger impact on performance in this scenario? Justify your choice.</li>
+                  </ol>
+                `,
+                arabicTranslation: "أسئلة نهاية الجلسة (١–٣): ١. تُظهر نتائج فحص دم المريض مستوى جلوكوز يبلغ 95 mg/dL. هل يُعد هذا مثالاً على البيانات (Data) أم المعلومات (Information)؟ وما السياق الإضافي المطلوب لتحويله إلى النوع الآخر؟ ٢. ما هي الوظيفة الأساسية لوحدة المعالجة المركزية (CPU)، وكيف تختلف عن دور ذاكرة الوصول العشوائي (RAM)؟ ٣. يعمل حاسوبك ببطء أثناء فتح متصفح ويب ومعالج نصوص ومكالمة فيديو في وقت واحد. هل ستكون ترقية المعالج (CPU) أم إضافة المزيد من ذاكرة (RAM) ذات تأثير أكبر على الأداء في هذا السيناريو؟ برّر اختيارك.",
+                medicalExplanation: "تُحاكي هذه الأسئلة أسئلة الامتحانات الجامعية في كلية طب الزهراء؛ لاحظ ربط السؤال الأول بفحص سكر الدم (95 mg/dL) وربط السؤال الثالث بتعدد المهام السريرية والأكاديمية.",
+                keyTerms: [
+                  { en: "Fasting Glucose Context (70–99 mg/dL)", ar: "السياق المرجعي لسكر الدم الصائم" },
+                  { en: "CPU vs. RAM Role", ar: "دور المعالج مقابل الذاكرة المؤقتة" }
+                ],
+                selfCheck: {
+                  question: "في السؤال الثالث (فتح عدة برامج ومكالمة فيديو في وقت واحد)، أي ترقية تعطي التأثير الأكبر؟",
+                  options: [
+                    "إضافة المزيد من ذاكرة RAM لأنها تخزن بيانات البرامج المفتوحة حالياً",
+                    "تغيير السماعات الخارجية",
+                    "استبدال الشاشة"
+                  ],
+                  correctIndex: 0,
+                  explanation: "لأن RAM هي الذاكرة قصيرة المدى التي تخزن البيانات والبرامج المفتوحة حالياً في وقت واحد."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 31,
+            title: "End-of-Session Questions (Questions 4–5)",
+            isQuestionsSlide: true,
+            blocks: [
+              {
+                id: "b-s31-1",
+                rawHtml: `
+                  <ol start="4" class="list-decimal pl-6 space-y-3 text-slate-900 font-medium">
+                    <li>Categorize the following devices as Input, Output, or Input/Output:
+                      <ul class="list-none pl-4 mt-1.5 space-y-1 font-normal text-slate-800">
+                        <li>a) A barcode scanner used to input patient ID codes.</li>
+                        <li>b) The hospital's MRI machine that produces detailed images.</li>
+                        <li>c) A USB flash drive used to transfer a patient's medical records.</li>
+                      </ul>
+                    </li>
+                    <li>Why is an operating system like Windows or macOS classified as System Software rather than Application Software?</li>
+                  </ol>
+                `,
+                arabicTranslation: "أسئلة نهاية الجلسة (٤–٥): ٤. صنّف الأجهزة التالية إلى إدخال (Input) أو إخراج (Output) أو إدخال/إخراج (Input/Output): أ) ماسح باركود يُستخدم لإدخال رموز هوية المريض. ب) جهاز الرنين المغناطيسي (MRI) في المستشفى الذي ينتج صوراً مفصلة. ج) ذاكرة فلاش (USB flash drive) تُستخدم لنقل السجلات الطبية للمريض. ٥. لماذا يُصنَّف نظام التشغيل مثل Windows أو macOS ضمن برمجيات النظام (System Software) بدلاً من البرمجيات التطبيقية (Application Software)؟",
+                medicalExplanation: "تطبيق عملي لتصنيف الأجهزة في بيئة المستشفى والتمييز بين طبقات البرمجيات.",
+                keyTerms: [
+                  { en: "Patient ID Barcode Scanner", ar: "قارئ باركود هوية المريض" },
+                  { en: "System Software vs. Application Software", ar: "التمييز بين برمجيات النظام والتطبيقات" }
+                ],
+                selfCheck: {
+                  question: "ما هو التصنيف الصحيح لذاكرة USB Flash Drive المستخدمة لنقل السجلات الطبية؟",
+                  options: ["Input/Output (I/O) & Storage Device", "Input Device only", "Output Device only"],
+                  correctIndex: 0,
+                  explanation: "تُصنف ذاكرة USB Flash Drive ضمن أجهزة الإدخال/الإخراج والتخزين (I/O) لأنها ترسل وتستقبل البيانات."
+                }
+              }
+            ]
+          },
+          {
+            slideNum: 32,
+            title: "Textbooks",
+            blocks: [
+              {
+                id: "b-s32-1",
+                rawHtml: `
+                  <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 text-slate-900">
+                    <p class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">Recommended Academic Reference</p>
+                    <p class="font-semibold text-base">
+                      "Computer Organization and Design: The Hardware/Software Interface" by David A. Patterson and John L. Hennessy.
+                    </p>
+                  </div>
+                `,
+                arabicTranslation: "الكتب المنهجية والمراجع (Textbooks): كتاب \"تنظيم وتصميم الحاسوب: واجهة المكونات المادية والبرمجيات\" تأليف ديفيد أ. باترسون وجون إل. هينيسي (Computer Organization and Design: The Hardware/Software Interface by David A. Patterson and John L. Hennessy).",
+                medicalExplanation: "يُعد هذا الكتاب من أشهر المراجع الأكاديمية العالمية المعتمدة في فهم العلاقة الهندسية والوظيفية بين العتاد الصلب (Hardware) والبرمجيات (Software).",
+                keyTerms: [
+                  { en: "Hardware/Software Interface", ar: "واجهة التفاعل بين المكونات المادية والبرمجيات" },
+                  { en: "Patterson & Hennessy", ar: "مؤلفا المرجع المنهجي" }
+                ],
+                selfCheck: {
+                  question: "ما هو عنوان الكتاب المرجعي المذكور في نهاية المحاضرة الأولى؟",
+                  options: [
+                    "Computer Organization and Design: The Hardware/Software Interface",
+                    "Gray's Anatomy for Students",
+                    "Introduction to Clinical Biochemistry"
+                  ],
+                  correctIndex: 0,
+                  explanation: "المرجع المذكور في الشريحة 32 هو: Computer Organization and Design: The Hardware/Software Interface."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // MODEL ANSWERS FOR END-OF-SESSION QUESTIONS (SLIDES 30-31)
+    const END_OF_SESSION_SOLUTIONS = [
+      {
+        qNum: 1,
+        question: "A patient's blood test results show a glucose level of 95 mg/dL. Is this an example of Data or Information? What additional context would be needed to transform it into the other?",
+        answerEn: "95 mg/dL by itself is an example of Data (a raw, unorganized numerical measurement). To transform it into Information, clinical context is needed—such as whether the patient was fasting or postprandial (after a meal), the patient's age/medical history, and the normal reference range (e.g., normal fasting blood glucose is typically 70–99 mg/dL), which allows a physician to conclude that the patient's blood sugar is within the normal range.",
+        answerAr: "القيمة 95 mg/dL بحد ذاتها هي مثال على البيانات (Data) لأنها مجرد رقم خام غير مفسَّر. ولتحويلها إلى معلومات (Information) نحتاج إلى سياق طبي إضافي مثل: حالة المريض (صائم أم بعد الأكل)، وتاريخه المرضي، ومقارنتها بالنطاق المرجعي الطبيعي (70–99 mg/dL للصائم)، مما يؤدي إلى استنتاج سريري بأن مستوى السكر طبيعي."
+      },
+      {
+        qNum: 2,
+        question: "What is the primary function of the Central Processing Unit (CPU), and how does it differ from the role of RAM?",
+        answerEn: "The CPU is the 'brain' of the computer responsible for executing and processing all instructions and calculations given to the computer. In contrast, RAM (Random Access Memory) is the computer's short-term, volatile memory that temporarily holds the active data and programs currently being used by the CPU, losing its contents when power is turned off.",
+        answerAr: "وحدة المعالجة المركزية (CPU) هي «عقل الحاسوب» المسؤول عن تنفيذ ومعالجة جميع التعليمات والعمليات الحسابية. أما ذاكرة الوصول العشوائي (RAM) فهي الذاكرة المؤقتة قصيرة المدى (المتطايرة) التي تحتفظ بالبيانات والبرامج النشطة قيد الاستخدام حالياً لكي يصل إليها المعالج بسرعة، وتفقد محتواها عند إيقاف تشغيل الجهاز."
+      },
+      {
+        qNum: 3,
+        question: "Your computer is running slowly while you have a web browser, a word processor, and a video call open simultaneously. Would upgrading the CPU or adding more RAM likely have a bigger impact on performance in this scenario? Justify your choice.",
+        answerEn: "Adding more RAM would likely have a bigger impact in this multitasking scenario. Because RAM stores all the data and applications currently open and in active use, having multiple memory-intensive programs open simultaneously (web browser, word processor, and video call) fills up limited RAM capacity, causing system slowdowns.",
+        answerAr: "إضافة المزيد من ذاكرة (RAM) سيكون لها التأثير الأكبر في سيناريو تعدد المهام هذا؛ لأن ذاكرة RAM هي المسؤولة عن تخزين جميع التطبيقات والبيانات المفتوحة حالياً في وقت واحد، وعند امتلائها يتباطأ أداء الجهاز بشكل ملحوظ."
+      },
+      {
+        qNum: 4,
+        question: "Categorize the following devices as Input, Output, or Input/Output: a) Barcode scanner, b) Hospital's MRI machine producing detailed images, c) USB flash drive.",
+        answerEn: "a) Barcode scanner: Input device (reads barcodes to send patient ID data into the computer). b) MRI machine producing detailed images: Output (the display/imaging console presents visual internal body images to the doctor; note that the MRI scanner sensors capture raw data while the imaging output presents the reconstructed diagnostic image). c) USB flash drive: Input/Output (I/O) & Storage device (can both receive/write and send/read patient medical records).",
+        answerAr: "أ) ماسح الباركود: جهاز إدخال (Input) لأنه يقرأ رمز هوية المريض ويدخله إلى الحاسوب. ب) جهاز الرنين المغناطيسي (MRI) الذي ينتج صوراً مفصلة: إخراج (Output) عند عرض الصور التشريحية المفصلة للطبيب (حيث تُعالَج بيانات المسح الخام لتُخرج صوراً مرئية). ج) ذاكرة USB Flash Drive: جهاز إدخال/إخراج وتخزين (Input/Output) لأنه يقرأ ويكتب وينقل السجلات الطبية."
+      },
+      {
+        qNum: 5,
+        question: "Why is an operating system like Windows or macOS classified as System Software rather than Application Software?",
+        answerEn: "Because an operating system is designed to manage the computer's hardware resources, act as an intermediary between the hardware and the user, and provide a foundational platform upon which application software runs—whereas Application Software is built to perform specific user tasks (like word processing or medical imaging) and relies on System Software to function.",
+        answerAr: "لأن نظام التشغيل صُمم لإدارة المكونات المادية للحاسوب والعمل كوسيط بين العتاد والمستخدم وتوفير بيئة أساسية لتشغيل التطبيقات، بينما صُممت البرمجيات التطبيقية (Application Software) لأداء مهام محددة للمستخدم وتعتمد على برمجيات النظام لكي تعمل."
+      }
+    ];
+
+    // VOCABULARY REVIEW GLOSSARY
+    const VOCABULARY_ITEMS = [
+      { term: "Computer", ar: "الحاسوب", cat: "core", def: "An electronic device that receives input, performs processing according to instructions, produces output, and stores results." },
+      { term: "Information Processing Cycle", ar: "دورة معالجة المعلومات", cat: "core", def: "The four basic operations of a computer: Input, Processing, Output, and Storage." },
+      { term: "Hardware", ar: "المكونات المادية (العتاد)", cat: "hardware", def: "Tangible physical components of a computer (e.g., Motherboard, CPU, RAM, storage, I/O devices)." },
+      { term: "Software", ar: "البرمجيات", cat: "software", def: "Intangible programs and instructions that tell the computer hardware what to do." },
+      { term: "System Software", ar: "برمجيات النظام", cat: "software", def: "Software that manages hardware and provides a platform for application software (e.g., Windows, macOS, Linux, Android)." },
+      { term: "Application Software", ar: "البرمجيات التطبيقية", cat: "software", def: "Programs designed for specific user tasks (e.g., Word, Excel, PowerPoint, Chrome, medical software)." },
+      { term: "Utility Software", ar: "البرمجيات الخدمية", cat: "software", def: "Software supporting system operation and maintenance (e.g., antivirus programs, file compression tools)." },
+      { term: "Motherboard", ar: "اللوحة الأم", cat: "hardware", def: "The main circuit board connecting all computer components together." },
+      { term: "CPU (Central Processing Unit)", ar: "وحدة المعالجة المركزية", cat: "hardware", def: "The brain of the computer responsible for processing all instructions." },
+      { term: "RAM (Random Access Memory)", ar: "ذاكرة الوصول العشوائي", cat: "hardware", def: "Short-term, volatile memory storing data currently in use; loses data when powered off." },
+      { term: "ROM (Read-Only Memory)", ar: "ذاكرة القراءة فقط", cat: "hardware", def: "Permanent, non-volatile memory that retains data even when the computer is turned off." },
+      { term: "PSU (Power Supply Unit)", ar: "وحدة تزويد الطاقة", cat: "hardware", def: "Converts AC electricity from the wall outlet into DC power for internal computer components." },
+      { term: "GPU (Graphics Processing Unit)", ar: "وحدة معالجة الرسوميات", cat: "hardware", def: "Specialized processor for graphics, 3D rendering, AI, and parallel calculations." },
+      { term: "HDD vs. SSD", ar: "القرص الصلب المغناطيسي مقابل قرص الحالة الصلبة", cat: "hardware", def: "HDD uses magnetic spinning platters (affordable, large capacity); SSD uses NAND flash (faster, shock-resistant up to 1500g)." },
+      { term: "ARM Processor", ar: "معالج آرم منخفض الطاقة", cat: "hardware", def: "Advanced RISC Machine processor designed for low-power mobile devices (Apple A-series, Snapdragon, Exynos)." },
+      { term: "Data vs. Information", ar: "البيانات مقابل المعلومات", cat: "data", def: "Data = raw, unorganized facts (e.g., 72 bpm); Information = processed, organized, meaningful data aiding decisions." },
+      { term: "MRI & CT Scans", ar: "الرنين المغناطيسي والتصوير المقطعي", cat: "data", def: "Medical imaging modalities where computers process raw scan data into detailed internal body structures." },
+      { term: "Bit & Byte", ar: "البت والبايت", cat: "data", def: "Bit = smallest binary digit (0 or 1); Byte = 8 bits combined." },
+      { term: "Numbering Systems", ar: "أنظمة العد", cat: "data", def: "Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16: 0-9, A-F)." },
+      { term: "Peripheral Devices", ar: "الأجهزة الطرفية", cat: "peripherals", def: "External devices connected to input, output, or store data (not part of core CPU/RAM/motherboard)." },
+      { term: "Thunderbolt", ar: "منفذ ثندربولت", cat: "peripherals", def: "High-speed interface combining data transfer, video output, and power delivery, often over USB-C." },
+      { term: "Ethernet (RJ-45)", ar: "منفذ الشبكة السلكية", cat: "peripherals", def: "Standard wired port connection for computer networking." }
+    ];
+
+    // FINAL ASSESSMENT QUESTIONS (12 QUESTIONS STRICTLY FROM LECTURE 1)
+    const FINAL_QUIZ_QUESTIONS = [
+      {
+        q: "1. What are the four basic operations of the information processing cycle performed by a computer?",
+        options: [
+          "Input, Processing, Output, and Storage",
+          "Booting, Compiling, Printing, and Deleting",
+          "Hardware, Software, Firmware, and Malware",
+          "Binary, Octal, Decimal, and Hexadecimal"
+        ],
+        answer: 0,
+        explanation: "Slide 3 defines a computer as performing four basic operations known as the information processing cycle: Input, Processing, Output, and Storage."
+      },
+      {
+        q: "2. Which statement accurately distinguishes RAM from ROM?",
+        options: [
+          "RAM is permanent and non-volatile, while ROM is short-term and volatile.",
+          "RAM is short-term and volatile (loses data when powered down), while ROM stores data permanently even when turned off.",
+          "Both RAM and ROM lose all data immediately when the computer is shut down.",
+          "ROM is the main circuit board that connects the CPU to the GPU."
+        ],
+        answer: 1,
+        explanation: "Slide 8 states that RAM is short-term volatile memory, whereas ROM retains its information permanently even when turned off."
+      },
+      {
+        q: "3. Which component converts AC electricity from the wall outlet into DC power usable by computer components?",
+        options: [
+          "GPU (Graphics Processing Unit)",
+          "PSU (Power Supply Unit)",
+          "NIC (Network Interface Card)",
+          "Motherboard"
+        ],
+        answer: 1,
+        explanation: "Slide 9 explains that the Power Supply Unit (PSU) converts AC electricity from the outlet into DC power for the components."
+      },
+      {
+        q: "4. Comparing Hard Disk Drives (HDDs) and Solid State Drives (SSDs) in Slide 10, which statement is TRUE?",
+        options: [
+          "HDDs are flash-based and shock resistant up to 1500g.",
+          "SSDs use magnetic platters and are cheaper per GB than HDDs.",
+          "SSDs use NAND flash memory, offer faster speeds and higher durability (up to 1500g shock resistance), but cost more per GB.",
+          "HDDs contain no moving parts."
+        ],
+        answer: 2,
+        explanation: "Slide 10 highlights that SSDs are flash-based, faster, and shock resistant up to 1500g, while HDDs use magnetic platters and are more affordable with larger capacities."
+      },
+      {
+        q: "5. Which processor family is specifically designed for low-power mobile devices such as smartphones and tablets?",
+        options: [
+          "AMD Ryzen Threadripper",
+          "Intel Core i9",
+          "ARM (Advanced RISC Machine) processors",
+          "Magnetic Platters"
+        ],
+        answer: 2,
+        explanation: "Slide 15 states that ARM processors (Apple A-series, Qualcomm Snapdragon, Samsung Exynos) are designed for low-power mobile devices."
+      },
+      {
+        q: "6. A nurse records a patient's temperature as '98.6°F'. Before clinical interpretation, '98.6°F' alone represents:",
+        options: [
+          "Information",
+          "Data",
+          "System Software",
+          "Utility Software"
+        ],
+        answer: 1,
+        explanation: "Slides 18–19 classify raw measurements like '98.6°F' or '72 bpm' as Data, whereas interpreting them within normal clinical ranges produces Information."
+      },
+      {
+        q: "7. How many bits combine to make one Byte, and how many Bytes equal one Kilobyte (KB)?",
+        options: [
+          "4 bits = 1 Byte; 1,000 Bytes = 1 KB",
+          "8 bits = 1 Byte; 1,024 Bytes = 1 KB",
+          "16 bits = 1 Byte; 512 Bytes = 1 KB",
+          "8 bits = 1 Byte; 100 Bytes = 1 KB"
+        ],
+        answer: 1,
+        explanation: "Slides 20–21 specify that 8 bits make 1 Byte, and 1 Kilobyte (KB) = 1,024 bytes."
+      },
+      {
+        q: "8. According to Slide 22, what is Decimal 13 in Binary, and what is Decimal 255 in Hexadecimal?",
+        options: [
+          "Decimal 13 = Binary 1101; Decimal 255 = Hexadecimal FF",
+          "Decimal 13 = Binary 1011; Decimal 255 = Hexadecimal 9F",
+          "Decimal 13 = Binary 1110; Decimal 255 = Hexadecimal AA",
+          "Decimal 13 = Binary 1001; Decimal 255 = Hexadecimal 16"
+        ],
+        answer: 0,
+        explanation: "Slide 22 explicitly gives the examples: Decimal 13 = Binary 1101, and Decimal 255 = Hexadecimal FF."
+      },
+      {
+        q: "9. Which of the following is classified as an Input/Output (I/O) & Storage peripheral device?",
+        options: [
+          "Barcode / QR Scanner",
+          "Projector",
+          "Network Interface Card (NIC)",
+          "Microphone"
+        ],
+        answer: 2,
+        explanation: "Slide 26 lists Network Interface Card (NIC), External Hard Drive, USB Flash Drive, Optical Disc Drive, and Memory Card Reader under Input/Output (I/O) & Storage Devices."
+      },
+      {
+        q: "10. Which connection interface combines high-speed data transfer, video output, and power delivery, often using a USB-C connector?",
+        options: [
+          "VGA",
+          "Thunderbolt",
+          "3.5mm Audio Jack",
+          "Ethernet (RJ-45)"
+        ],
+        answer: 1,
+        explanation: "Slide 28 defines Thunderbolt as a high-speed interface combining data transfer, video output, and power delivery, often using a USB-C connector."
+      }
+    ];
+
+    // APPLICATION STATE
+    const state = {
+      openBlockId: null,
+      exploredBlocks: new Set(JSON.parse(localStorage.getItem('uob_cf_lec1_explored') || '[]')),
+      quizSelections: {},
+      quizSubmitted: false,
+      vocabCategory: 'all',
+      vocabSearch: ''
+    };
+
+    function saveProgress() {
+      localStorage.setItem('uob_cf_lec1_explored', JSON.stringify([...state.exploredBlocks]));
+      updateProgressUI();
+    }
+
+    function getTotalBlockCount() {
+      let count = 0;
+      LECTURE_SECTIONS.forEach(sec => sec.slides.forEach(sl => count += sl.blocks.length));
+      return count;
+    }
+
+    function updateProgressUI() {
+      const total = getTotalBlockCount();
+      const done = state.exploredBlocks.size;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('progressPercentText').textContent = `${pct}%`;
+      document.getElementById('progressBarFill').style.width = `${pct}%`;
+      document.getElementById('progressCountBadge').textContent = `${done}/${total}`;
+      const heroCount = document.getElementById('heroBlockCount');
+      if (heroCount) heroCount.textContent = `${total} Verbatim Study Blocks`;
+    }
+
+    // RENDER INTERACTIVE DIAGRAMS FOR SLIDES 3, 7, 10, 18
+    function renderVisualDiagram(type) {
+      if (type === 'processing-cycle') {
+        return `
+          <div class="my-4 p-4 sm:p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-inner">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-teal-300 mb-3 text-center">Slide 3 Interactive Diagram — Information Processing Cycle</p>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-center text-center">
+              <div class="p-3.5 rounded-xl bg-orange-500/20 border border-orange-400/50">
+                <div class="text-xs font-bold text-orange-300 uppercase">Step 1</div>
+                <div class="text-base font-extrabold text-white mt-0.5">Input</div>
+                <p class="text-[11px] text-slate-300 mt-1">Receives raw data & signals</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-500/25 border border-slate-400/50">
+                <div class="text-xs font-bold text-slate-300 uppercase">Step 2</div>
+                <div class="text-base font-extrabold text-white mt-0.5">Processing</div>
+                <p class="text-[11px] text-slate-300 mt-1">Executes instructions (CPU)</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-amber-400/20 border border-amber-300/50">
+                <div class="text-xs font-bold text-amber-300 uppercase">Step 3</div>
+                <div class="text-base font-extrabold text-white mt-0.5">Output</div>
+                <p class="text-[11px] text-slate-300 mt-1">Produces meaningful results</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-blue-500/20 border border-blue-400/50">
+                <div class="text-xs font-bold text-blue-300 uppercase">Step 4</div>
+                <div class="text-base font-extrabold text-white mt-0.5">Storage</div>
+                <p class="text-[11px] text-slate-300 mt-1">Saves for future reference</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      if (type === 'computer-components') {
+        return `
+          <div class="my-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-[#0B2545] text-white border border-slate-700">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-teal-300 mb-3">Slide 7 Visual Architecture — Internal vs. External Hardware</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 rounded-xl bg-white/10 border border-white/15">
+                <h5 class="font-bold text-amber-300 uppercase tracking-wide mb-2">System Unit (Internal Core)</h5>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">Motherboard</span><br><span class="text-slate-300 text-[11px]">Main circuit board</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">CPU</span><br><span class="text-slate-300 text-[11px]">Central processor</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">RAM</span><br><span class="text-slate-300 text-[11px]">Short-term memory</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">GPU</span><br><span class="text-slate-300 text-[11px]">Graphics processor</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">Storage</span><br><span class="text-slate-300 text-[11px]">HDD / SSD drives</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-teal-500/30"><span class="font-bold text-teal-300">Power Supply Unit</span><br><span class="text-slate-300 text-[11px]">AC to DC power</span></div>
+                </div>
+              </div>
+              <div class="p-4 rounded-xl bg-white/10 border border-white/15">
+                <h5 class="font-bold text-emerald-300 uppercase tracking-wide mb-2">External Peripherals</h5>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-emerald-500/30"><span class="font-bold text-emerald-300">Monitor</span><br><span class="text-slate-300 text-[11px]">Visual display output</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-emerald-500/30"><span class="font-bold text-emerald-300">Speakers</span><br><span class="text-slate-300 text-[11px]">Audio output</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-emerald-500/30"><span class="font-bold text-emerald-300">Keyboard</span><br><span class="text-slate-300 text-[11px]">Text/command input</span></div>
+                  <div class="p-2 rounded-lg bg-slate-950/60 border border-emerald-500/30"><span class="font-bold text-emerald-300">Mouse</span><br><span class="text-slate-300 text-[11px]">Pointing input</span></div>
+                  <div class="col-span-2 p-2 rounded-lg bg-slate-950/60 border border-emerald-500/30"><span class="font-bold text-emerald-300">USB Flash Drive</span><br><span class="text-slate-300 text-[11px]">Portable I/O storage</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      if (type === 'hdd-vs-ssd') {
+        return `
+          <div class="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-2xl bg-slate-100 border border-slate-300">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-extrabold text-slate-900 text-sm">HDD 3.5" (Magnetic Storage)</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">Mechanical</span>
+              </div>
+              <p class="text-xs text-slate-700 mb-2"><strong>Internal Parts:</strong> Platters, Spindle, R/W Head, Actuator Arm, Actuator Axis, Actuator.</p>
+              <div class="text-[11px] bg-white p-2.5 rounded-xl border border-slate-200 space-y-1 text-slate-700">
+                <p>• Shock resistant up to <strong>55g</strong> (operating)</p>
+                <p>• Shock resistant up to <strong>350g</strong> (non-operating)</p>
+              </div>
+            </div>
+            <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-200">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-extrabold text-teal-950 text-sm">SSD 2.5" (Solid State Drive)</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-teal-200 text-teal-900">NAND Flash</span>
+              </div>
+              <p class="text-xs text-slate-700 mb-2"><strong>Internal Parts:</strong> Cache, Controller, NAND Flash Memory (No moving parts).</p>
+              <div class="text-[11px] bg-white p-2.5 rounded-xl border border-teal-200 space-y-1 text-slate-800">
+                <p>• Shock resistant up to <strong>1500g</strong> (operating and non-operating)</p>
+                <p>• Faster speeds & higher durability than HDDs</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      if (type === 'data-vs-information') {
+        return `
+          <div class="my-4 p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-[#0B2545] to-teal-900 text-white">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-3 text-center">Slide 18 Visual Comparison — Data vs. Information</p>
+            <div class="grid grid-cols-1 sm:grid-cols-11 gap-3 items-center">
+              <div class="sm:col-span-5 p-3.5 rounded-xl bg-white/10 border border-white/15">
+                <span class="text-xs font-extrabold uppercase text-cyan-300">DATA (Raw Facts)</span>
+                <p class="text-xs text-slate-200 mt-1">Unorganized figures, text, images, heart rate (72 bpm), blood pressure reading.</p>
+              </div>
+              <div class="sm:col-span-1 text-center font-extrabold text-amber-300 text-sm">VS</div>
+              <div class="sm:col-span-5 p-3.5 rounded-xl bg-teal-500/20 border border-teal-300/40">
+                <span class="text-xs font-extrabold uppercase text-emerald-300">INFORMATION (Processed)</span>
+                <p class="text-xs text-slate-100 mt-1">Organized, meaningful context aiding clinical & general decision-making.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      return '';
+    }
+
+    // RENDER TABLE OF CONTENTS (DESKTOP + MOBILE)
+    function renderTableOfContents() {
+      const desktopList = document.getElementById('desktopTocList');
+      const mobileList = document.getElementById('mobileTocList');
+
+      const tocHtml = LECTURE_SECTIONS.map(sec => {
+        const slidesLinks = sec.slides.map(sl => `
+          <a href="#slide-${sl.slideNum}"
+            class="toc-slide-link block pl-3 py-1 rounded-lg text-[11px] text-slate-600 hover:text-teal-700 hover:bg-teal-50/70 transition truncate"
+            title="Slide ${sl.slideNum}: ${sl.title}">
+            <span class="font-mono font-bold text-slate-400 mr-1">#${sl.slideNum}</span> ${sl.title}
+          </a>
+        `).join('');
+
+        return `
+          <div class="pb-2">
+            <a href="#${sec.id}" class="block px-2.5 py-1.5 rounded-xl font-bold text-xs text-slate-900 bg-slate-100/80 hover:bg-teal-50 hover:text-teal-800 transition">
+              ${sec.tocTitle}
+            </a>
+            <div class="mt-1 space-y-0.5 border-l-2 border-slate-200 ml-2.5">
+              ${slidesLinks}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const extraLinks = `
+        <div class="pt-2 border-t border-slate-200 space-y-1">
+          <a href="#vocab-section" class="block px-2.5 py-1.5 rounded-xl font-bold text-xs text-teal-800 bg-teal-50 hover:bg-teal-100 transition">
+            9. Vocabulary Review Glossary
+          </a>
+          <a href="#assessment-section" class="block px-2.5 py-1.5 rounded-xl font-bold text-xs text-amber-900 bg-amber-50 hover:bg-amber-100 transition">
+            10. Final Assessment Exam
+          </a>
+        </div>
+      `;
+
+      desktopList.innerHTML = tocHtml + extraLinks;
+      mobileList.innerHTML = tocHtml + extraLinks;
+
+      // Close mobile drawer when clicking any TOC link
+      mobileList.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.getElementById('mobileDrawerOverlay').classList.add('hidden');
+        });
+      });
+    }
+
+    // RENDER ALL 32 SLIDES WITH PARAGRAPH-BY-PARAGRAPH LEARNING WINDOWS
+    function renderLectureContent() {
+      const container = document.getElementById('lectureContainer');
+
+      container.innerHTML = LECTURE_SECTIONS.map(section => {
+        const slidesHtml = section.slides.map(slide => {
+          const blocksHtml = slide.blocks.map(block => {
+            const isOpen = state.openBlockId === block.id;
+            const isExplored = state.exploredBlocks.has(block.id);
+
+            return `
+              <div class="paragraph-unit border border-slate-200/90 rounded-2xl p-4 sm:p-5 bg-white shadow-2xs transition ${isOpen ? 'ring-2 ring-teal-600/30 border-teal-400' : ''}">
+                <!-- VERBATIM ENGLISH CONTENT (INDEPENDENTLY READABLE) -->
+                <div class="prose prose-slate max-w-none text-[15px] sm:text-base leading-relaxed">
+                  ${block.rawHtml}
+                </div>
+
+                <!-- SINGLE BUTTON DIRECTLY UNDERNEATH PARAGRAPH -->
+                <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+                  <button type="button"
+                    data-block-id="${block.id}"
+                    class="understand-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 ${
+                      isOpen
+                        ? 'bg-slate-900 text-white shadow-sm'
+                        : 'bg-teal-50 hover:bg-teal-600 text-teal-800 hover:text-white border border-teal-200'
+                    }">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>Understand This Paragraph</span>
+                  </button>
+
+                  <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${
+                    isExplored
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      : 'bg-slate-100 text-slate-500'
+                  }">
+                    ${isExplored ? '✓ Studied' : 'Slide ' + slide.slideNum}
+                  </span>
+                </div>
+
+                <!-- EXPANDABLE 4-SECTION LEARNING WINDOW (ONLY ONE OPEN AT A TIME) -->
+                ${isOpen ? renderLearningWindow(block) : ''}
+              </div>
+            `;
+          }).join('');
+
+          // Add Model Answers toggle specifically on Slides 30 & 31
+          const modelAnswersHtml = slide.isQuestionsSlide ? renderEndOfSessionSolutions(slide.slideNum) : '';
+
+          return `
+            <article id="slide-${slide.slideNum}" class="scroll-mt-24 bg-slate-50/70 rounded-3xl border border-slate-200/90 p-5 sm:p-6 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+                <div class="flex items-center gap-2.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-[#0B2545] text-white font-mono text-xs font-bold">
+                    Slide ${slide.slideNum} / 32
+                  </span>
+                  <h3 class="text-base sm:text-lg font-extrabold text-slate-900">${slide.title}</h3>
+                </div>
+                <span class="text-[11px] font-medium text-slate-400">AL-Zahraa College of Medicine</span>
+              </div>
+
+              ${slide.visualDiagram ? renderVisualDiagram(slide.visualDiagram) : ''}
+
+              <div class="space-y-4">
+                ${blocksHtml}
+              </div>
+
+              ${modelAnswersHtml}
+            </article>
+          `;
+        }).join('');
+
+        return `
+          <section id="${section.id}" class="scroll-mt-24 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-teal-700">${section.sectionBadge}</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">${section.sectionTitle}</h2>
+              </div>
+            </div>
+            <div class="space-y-6">
+              ${slidesHtml}
+            </div>
+          </section>
+        `;
+      }).join('');
+
+      attachBlockListeners();
+    }
+
+    // RENDER THE 4 MANDATORY SECTIONS INSIDE THE PARAGRAPH LEARNING WINDOW
+    function renderLearningWindow(block) {
+      const termsHtml = block.keyTerms.map(t => `
+        <div class="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs">
+          <span class="font-bold text-slate-900">${t.en}</span>
+          <span class="arabic-text font-semibold text-teal-800">${t.ar}</span>
+        </div>
+      `).join('');
+
+      const optionsHtml = block.selfCheck.options.map((opt, idx) => `
+        <button type="button"
+          data-check-block="${block.id}"
+          data-opt-idx="${idx}"
+          class="self-check-opt w-full text-right arabic-text px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-teal-50 hover:border-teal-300 text-xs sm:text-sm font-medium text-slate-800 transition">
+          ${opt}
+        </button>
+      `).join('');
+
+      return `
+        <div class="panel-enter mt-4 rounded-2xl bg-gradient-to-b from-slate-50 to-teal-50/40 border-2 border-teal-500/30 p-4 sm:p-5 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-teal-800">Interactive Medical Student Study Guide</span>
+            <button type="button" id="closeActivePanelBtn" class="text-xs font-semibold text-slate-500 hover:text-slate-900 px-2.5 py-1 rounded-lg hover:bg-slate-200/70 transition">
+              Close Window ✕
+            </button>
+          </div>
+
+          <!-- SECTION 1: COMPLETE ARABIC TRANSLATION -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-teal-700 text-white">
+                SECTION 1 — Complete Arabic Translation
+              </span>
+              <span class="text-xs font-bold text-teal-900 font-arabic">الترجمة العربية الكاملة</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white border border-teal-100 arabic-text text-sm sm:text-[15px] text-slate-800 shadow-2xs">
+              ${block.arabicTranslation}
+            </div>
+          </div>
+
+          <!-- SECTION 2: SIMPLIFIED MEDICAL-STUDENT EXPLANATION -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-[#0B2545] text-white">
+                SECTION 2 — Medical Student Clinical Explanation
+              </span>
+              <span class="text-xs font-bold text-slate-800 font-arabic">الشرح المبسط والربط الطبي</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-blue-50/60 border border-blue-200/80 arabic-text text-sm text-slate-800">
+              ${block.medicalExplanation}
+            </div>
+          </div>
+
+          <!-- SECTION 3: KEY TERMS & VOCABULARY BREAKDOWN -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-600 text-white">
+                SECTION 3 — Key Terms & Vocabulary Breakdown
+              </span>
+              <span class="text-xs font-bold text-amber-900 font-arabic">المصطلحات المفتاحية</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${termsHtml}
+            </div>
+          </div>
+
+          <!-- SECTION 4: QUICK SELF-CHECK QUESTION -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-700 text-white">
+                SECTION 4 — Quick Self-Check Question
+              </span>
+              <span class="text-xs font-bold text-emerald-900 font-arabic">اختبر فهمك للفقرة</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white border border-emerald-200 space-y-2.5">
+              <p class="arabic-text text-sm font-bold text-slate-900">${block.selfCheck.question}</p>
+              <div class="space-y-1.5">
+                ${optionsHtml}
+              </div>
+              <div id="feedback-${block.id}" class="hidden p-3 rounded-xl arabic-text text-xs sm:text-sm"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEndOfSessionSolutions(slideNum) {
+      const subset = slideNum === 30
+        ? END_OF_SESSION_SOLUTIONS.filter(s => s.qNum <= 3)
+        : END_OF_SESSION_SOLUTIONS.filter(s => s.qNum >= 4);
+
+      const itemsHtml = subset.map(item => `
+        <div class="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1.5">
+          <p class="text-xs font-extrabold text-teal-800">Model Answer — Question ${item.qNum}</p>
+          <p class="text-xs sm:text-sm text-slate-800 leading-relaxed">${item.answerEn}</p>
+          <p class="arabic-text text-xs sm:text-sm text-slate-700 pt-1.5 border-t border-slate-100">${item.answerAr}</p>
+        </div>
+      `).join('');
+
+      return `
+        <div class="pt-2">
+          <details class="group rounded-2xl bg-amber-50/70 border border-amber-200 p-4">
+            <summary class="cursor-pointer list-none flex items-center justify-between font-bold text-xs sm:text-sm text-amber-950">
+              <span>Show Academic Model Answers & Arabic Explanations (Questions ${slideNum === 30 ? '1–3' : '4–5'})</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-200/70 text-amber-950 text-xs group-open:hidden">Reveal Answers</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-200/70 text-amber-950 text-xs hidden group-open:inline">Hide Answers</span>
+            </summary>
+            <div class="mt-3 space-y-3">
+              ${itemsHtml}
+            </div>
+          </details>
+        </div>
+      `;
+    }
+
+    function attachBlockListeners() {
+      document.querySelectorAll('.understand-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const blockId = btn.getAttribute('data-block-id');
+          if (state.openBlockId === blockId) {
+            state.openBlockId = null;
+          } else {
+            state.openBlockId = blockId;
+            state.exploredBlocks.add(blockId);
+            saveProgress();
+          }
+          renderLectureContent();
+          if (state.openBlockId) {
+            const activeBtn = document.querySelector(`.understand-btn[data-block-id="${blockId}"]`);
+            if (activeBtn) {
+              activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
+        });
+      });
+
+      const closeBtn = document.getElementById('closeActivePanelBtn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          state.openBlockId = null;
+          renderLectureContent();
+        });
+      }
+
+      document.querySelectorAll('.self-check-opt').forEach(optBtn => {
+        optBtn.addEventListener('click', () => {
+          const blockId = optBtn.getAttribute('data-check-block');
+          const chosenIdx = parseInt(optBtn.getAttribute('data-opt-idx'), 10);
+
+          let targetBlock = null;
+          LECTURE_SECTIONS.forEach(s => s.slides.forEach(sl => sl.blocks.forEach(b => {
+            if (b.id === blockId) targetBlock = b;
+          })));
+          if (!targetBlock) return;
+
+          const isCorrect = chosenIdx === targetBlock.selfCheck.correctIndex;
+          const feedbackEl = document.getElementById(`feedback-${blockId}`);
+          if (feedbackEl) {
+            feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-900', 'border-emerald-300', 'bg-rose-50', 'text-rose-900', 'border-rose-300');
+            feedbackEl.classList.add('border');
+            if (isCorrect) {
+              feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-300');
+              feedbackEl.innerHTML = `<strong>✓ إجابة صحيحة!</strong> ${targetBlock.selfCheck.explanation}`;
+            } else {
+              feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-300');
+              feedbackEl.innerHTML = `<strong>✕ حاول مرة أخرى:</strong> ${targetBlock.selfCheck.explanation}`;
+            }
+          }
+        });
+      });
+    }
+
+    // RENDER VOCABULARY GLOSSARY
+    function renderVocabulary() {
+      const grid = document.getElementById('vocabGrid');
+      const query = state.vocabSearch.trim().toLowerCase();
+
+      const filtered = VOCABULARY_ITEMS.filter(item => {
+        const matchesCat = state.vocabCategory === 'all' || item.cat === state.vocabCategory;
+        const matchesText = !query ||
+          item.term.toLowerCase().includes(query) ||
+          item.ar.includes(query) ||
+          item.def.toLowerCase().includes(query);
+        return matchesCat && matchesText;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-sm text-slate-500 py-6">No matching terms found.</p>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-teal-400 transition flex flex-col justify-between gap-2">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="font-bold text-slate-900 text-sm">${item.term}</h4>
+            <span class="arabic-text text-xs font-bold px-2.5 py-0.5 rounded-lg bg-teal-100 text-teal-900 shrink-0">${item.ar}</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">${item.def}</p>
+        </div>
+      `).join('');
+    }
+
+    // RENDER FINAL ASSESSMENT QUIZ
+    function renderFinalQuiz() {
+      const container = document.getElementById('quizContainer');
+
+      let scoreHtml = '';
+      if (state.quizSubmitted) {
+        let correct = 0;
+        FINAL_QUIZ_QUESTIONS.forEach((q, i) => {
+          if (state.quizSelections[i] === q.answer) correct++;
+        });
+        const pct = Math.round((correct / FINAL_QUIZ_QUESTIONS.length) * 100);
+        scoreHtml = `
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0B2545] to-teal-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Assessment Completed</span>
+              <h3 class="text-xl font-extrabold mt-0.5">Your Score: ${correct} / ${FINAL_QUIZ_QUESTIONS.length} (${pct}%)</h3>
+              <p class="text-xs text-slate-200 mt-1">${pct >= 80 ? 'Excellent mastery of Lecture 1 Computer Fundamentals!' : 'Review the explanations below and retry to achieve 100% mastery.'}</p>
+            </div>
+            <button type="button" id="retryQuizBtn" class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm transition shrink-0">
+              Retake Exam
+            </button>
+          </div>
+        `;
+      }
+
+      const questionsHtml = FINAL_QUIZ_QUESTIONS.map((item, qIdx) => {
+        const selected = state.quizSelections[qIdx];
+        const optsHtml = item.options.map((opt, oIdx) => {
+          let btnClass = 'border-slate-200 bg-white hover:bg-slate-50 text-slate-800';
+          if (state.quizSubmitted) {
+            if (oIdx === item.answer) {
+              btnClass = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold';
+            } else if (selected === oIdx && oIdx !== item.answer) {
+              btnClass = 'border-rose-400 bg-rose-50 text-rose-950';
+            }
+          } else if (selected === oIdx) {
+            btnClass = 'border-teal-600 bg-teal-50 text-teal-950 font-semibold ring-1 ring-teal-600';
+          }
+
+          return `
+            <button type="button"
+              data-q="${qIdx}"
+              data-o="${oIdx}"
+              ${state.quizSubmitted ? 'disabled' : ''}
+              class="quiz-opt-btn w-full text-left px-4 py-2.5 rounded-xl border text-xs sm:text-sm transition ${btnClass}">
+              <span class="font-mono font-bold mr-2">${String.fromCharCode(65 + oIdx)}.</span> ${opt}
+            </button>
+          `;
+        }).join('');
+
+        return `
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <p class="font-bold text-slate-900 text-sm sm:text-base">${item.q}</p>
+            <div class="space-y-2">${optsHtml}</div>
+            ${state.quizSubmitted ? `
+              <div class="p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-700">
+                <strong class="text-teal-800">Explanation:</strong> ${item.explanation}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      const submitBar = !state.quizSubmitted ? `
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-xs text-slate-500">Answered: ${Object.keys(state.quizSelections).length} / ${FINAL_QUIZ_QUESTIONS.length}</span>
+          <button type="button" id="submitQuizBtn" class="px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-sm shadow-md transition active:scale-95">
+            Submit Final Assessment
+          </button>
+        </div>
+      ` : '';
+
+      container.innerHTML = scoreHtml + questionsHtml + submitBar;
+
+      document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (state.quizSubmitted) return;
+          const q = parseInt(btn.getAttribute('data-q'), 10);
+          const o = parseInt(btn.getAttribute('data-o'), 10);
+          state.quizSelections[q] = o;
+          renderFinalQuiz();
+        });
+      });
+
+      const submitBtn = document.getElementById('submitQuizBtn');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+          state.quizSubmitted = true;
+          renderFinalQuiz();
+          document.getElementById('assessment-section').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      const retryBtn = document.getElementById('retryQuizBtn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          state.quizSelections = {};
+          state.quizSubmitted = false;
+          renderFinalQuiz();
+        });
+      }
+    }
+
+    // INITIALIZE APPLICATION ON WINDOW LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTableOfContents();
+      renderLectureContent();
+      renderVocabulary();
+      renderFinalQuiz();
+      updateProgressUI();
+
+      // Mobile drawer controls
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileDrawerOverlay = document.getElementById('mobileDrawerOverlay');
+      const closeMobileDrawer = document.getElementById('closeMobileDrawer');
+
+      mobileMenuBtn.addEventListener('click', () => mobileDrawerOverlay.classList.remove('hidden'));
+      closeMobileDrawer.addEventListener('click', () => mobileDrawerOverlay.classList.add('hidden'));
+      mobileDrawerOverlay.addEventListener('click', (e) => {
+        if (e.target === mobileDrawerOverlay) mobileDrawerOverlay.classList.add('hidden');
+      });
+
+      // Reset progress button
+      document.getElementById('resetProgressBtn').addEventListener('click', () => {
+        state.exploredBlocks.clear();
+        state.openBlockId = null;
+        saveProgress();
+        renderLectureContent();
+      });
+
+      // Vocabulary search & filter listeners
+      document.getElementById('vocabSearchInput').addEventListener('input', (e) => {
+        state.vocabSearch = e.target.value;
+        renderVocabulary();
+      });
+
+      document.querySelectorAll('.vocab-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('.vocab-pill').forEach(p => {
+            p.classList.remove('bg-white', 'text-slate-900');
+            p.classList.add('bg-white/15', 'text-white');
+          });
+          pill.classList.remove('bg-white/15', 'text-white');
+          pill.classList.add('bg-white', 'text-slate-900');
+          state.vocabCategory = pill.getAttribute('data-cat');
+          renderVocabulary();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
